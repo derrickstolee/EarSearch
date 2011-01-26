@@ -1,0 +1,41 @@
+########################
+# README -- Ear Search #
+########################
+
+Author: Derrick Stolee
+Date: 01/24/2011
+
+Ear Search is a library for generating 2-connected graphs
+using isomorph-free generation by ear augmentations.
+There are three special cases: enumerate, reconstructions, and matchings.
+
+==INSTALLATION AND COMPILATION==
+
+To install, you must download the TreeSearch and nauty libraries.
+
+TreeSearch is avialable on GitHub at the address 
+	https://github.com/derrickstolee/TreeSearch/
+
+Place TreeSearch repository in a folder 'treesearch/'
+Compile with 'make'.
+
+
+Nauty is available at Brendan McKay's webpage
+	http://cs.anu.edu.au/~bdm/nauty/
+
+To download the specific version, use 
+	wget http://cs.anu.edu.au/~bdm/nauty/nauty24r2.zip
+
+Place the nauty code into folder 'nauty24r2/'
+Compile with './configure' and 'make'.
+
+
+To compile Ear Search, 
+	Go to the 'src/' folder,
+	Type 'make'.
+
+The executable EarSearch.exe is the standalone version of Ear Search.
+	
+
+
+
