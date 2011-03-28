@@ -24,7 +24,7 @@ Nauty is available at Brendan McKay's webpage
 	http://cs.anu.edu.au/~bdm/nauty/
 
 To download the specific version, use 
-	wget http://cs.anu.edu.au/~bdm/nauty/nauty24r2.zip
+	wget http://cs.anu.edu.au/~bdm/nauty/nauty24r2.tar.gz
 
 Place the nauty code into folder 'nauty24r2/'
 Compile with './configure' and 'make'.
