@@ -1,0 +1,29 @@
+:GaO_`_`o_E@PRw_
+--p=26	n=8
+S 5 13 4 20001 4 3 8 20001 1 5 8 17 8 13 B
+:GaO_`_`o_E@PRw_
+--p=26	n=8
+S 6 13 4 20001 4 3 8 20001 1 5 8 17 8 13 B
+--[doSearch] Failed to find child 200 at depth 1, got FFFFFFFFFFFFFFFF instead.
+:GaO_`_`o_E@PRw_
+--p=26	n=8
+S 7 13 4 20001 4 3 8 20001 1 5 8 17 8 13 B
+:GaO_`_`NA?WG]GC
+--p=26	n=8
+S 7 13 4 20001 4 3 8 20001 3 9 1 3 7 7 A
+:GaO_`_`o_CwGSw_
+--p=26	n=8
+S 7 13 4 20001 4 3 8 20001 3 9 1 3 7 B 5
+:GaO_`_`o_EADMGD
+--p=26	n=8
+S 7 13 4 20001 4 3 8 20001 3 9 1 3 7 B 5
+--[doSearch] Failed to find child 0 at depth 6, got FFFFFFFFFFFFFFFF instead.
+:GaO_`_`NA?WG]GC
+--p=26	n=8
+S 8 13 4 20001 4 3 8 20001 3 9 1 3 7 7 A
+:GaO_`_`o_CwGSw_
+--p=26	n=8
+S 8 13 4 20001 4 3 8 20001 3 9 1 3 7 B 5
+:GaO_`_`o_EADMGD
+--p=26	n=8
+S 8 13 4 20001 4 3 8 20001 3 9 1 3 7 B 5

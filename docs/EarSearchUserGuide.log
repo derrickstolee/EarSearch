@@ -1,0 +1,273 @@
+This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2007.11.14)  4 MAR 2011 12:13
+entering extended mode
+\write18 enabled.
+**EarSearchUserGuide.tex
+(./EarSearchUserGuide.tex
+LaTeX2e <2005/12/01>
+Babel <v3.8h> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, arabic, basque, bulgarian, coptic, welsh, czech, slovak, german, ng
+erman, danish, esperanto, spanish, catalan, galician, estonian, farsi, finnish,
+ french, greek, monogreek, ancientgreek, croatian, hungarian, interlingua, ibyc
+us, indonesian, icelandic, italian, latin, mongolian, dutch, norsk, polish, por
+tuguese, pinyin, romanian, russian, slovenian, uppersorbian, serbian, swedish, 
+turkish, ukenglish, ukrainian, loaded.
+(/usr/local/gwTeX/texmf.texlive/tex/latex/base/article.cls
+Document Class: article 2005/09/16 v1.4f Standard LaTeX document class
+(/usr/local/gwTeX/texmf.texlive/tex/latex/base/size11.clo
+File: size11.clo 2005/09/16 v1.4f Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/local/gwTeX/texmf.texlive/tex/latex/psnfss/times.sty
+Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
+)
+(/usr/local/gwTeX/texmf.texlive/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/gwTeX/texmf.texlive/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/local/gwTeX/texmf.texlive/tex/latex/graphics/graphics.sty
+Package: graphics 2006/02/20 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/gwTeX/texmf.texlive/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/local/gwTeX/texmf.texlive/tex/latex/config/graphics.cfg
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 90.
+
+(/usr/local/gwTeX/texmf.texlive/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2007/01/08 v0.04d Graphics/color for pdfTeX
+\Gread@gobject=\count87
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+(/usr/local/gwTeX/texmf.texlive/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count88
+\float@exts=\toks15
+\float@box=\box26
+\@float@everytoks=\toks16
+\@floatcapt=\box27
+)
+(/usr/local/gwTeX/texmf.texlive/tex/latex/tools/multicol.sty
+Package: multicol 2006/05/18 v1.6g multicolumn formatting (FMi)
+\c@tracingmulticols=\count89
+\mult@box=\box28
+\multicol@leftmargin=\dimen105
+\c@unbalance=\count90
+\c@collectmore=\count91
+\doublecol@number=\count92
+\multicoltolerance=\count93
+\multicolpretolerance=\count94
+\full@width=\dimen106
+\page@free=\dimen107
+\premulticols=\dimen108
+\postmulticols=\dimen109
+\multicolsep=\skip43
+\multicolbaselineskip=\skip44
+\partial@page=\box29
+\last@line=\box30
+\mult@rightbox=\box31
+\mult@grightbox=\box32
+\mult@gfirstbox=\box33
+\mult@firstbox=\box34
+\@tempa=\box35
+\@tempa=\box36
+\@tempa=\box37
+\@tempa=\box38
+\@tempa=\box39
+\@tempa=\box40
+\@tempa=\box41
+\@tempa=\box42
+\@tempa=\box43
+\@tempa=\box44
+\@tempa=\box45
+\@tempa=\box46
+\@tempa=\box47
+\@tempa=\box48
+\@tempa=\box49
+\@tempa=\box50
+\@tempa=\box51
+\c@columnbadness=\count95
+\c@finalcolumnbadness=\count96
+\last@try=\dimen110
+\multicolovershoot=\dimen111
+\multicolundershoot=\dimen112
+\mult@nat@firstbox=\box52
+\colbreak@box=\box53
+)
+(/usr/local/gwTeX/texmf.texlive/tex/latex/floatflt/floatflt.sty
+Package: floatflt 1997/07/16 v. 1.31
+\c@OptionTest=\count97
+\figbox=\box54
+\tabbox=\box55
+\pagebox=\box56
+\ffigcount=\count98
+\ftabcount=\count99
+\fftest=\count100
+\hangcount=\count101
+\nosuccesstryfig=\count102
+\nosuccesstrytab=\count103
+\figgutter=\dimen113
+\tabgutter=\dimen114
+\htdone=\dimen115
+\pageht=\dimen116
+\startpageht=\dimen117
+\tabbredd=\dimen118
+\floatfltwidth=\dimen119
+\fltitemwidth=\dimen120
+\outputpretest=\toks17
+)
+(/usr/local/gwTeX/texmf.texlive/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2007/02/27 v6.75t Hypertext links for LaTeX
+\@linkdim=\dimen121
+\Hy@linkcounter=\count104
+\Hy@pagecounter=\count105
+
+(/usr/local/gwTeX/texmf.texlive/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2007/02/27 v6.75t Hyperref: PDFDocEncoding definition (HO)
+)
+(/usr/local/gwTeX/texmf.texlive/tex/latex/config/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+(/usr/local/gwTeX/texmf.texlive/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2006/08/22 v2.4 Connects package keyval with LaTeX options (
+HO)
+)
+Package hyperref Info: Hyper figures OFF on input line 2302.
+Package hyperref Info: Link nesting OFF on input line 2307.
+Package hyperref Info: Hyper index ON on input line 2310.
+Package hyperref Info: Plain pages OFF on input line 2317.
+Package hyperref Info: Backreferencing OFF on input line 2322.
+
+Implicit mode ON; LaTeX internals redefined
+Package hyperref Info: Bookmarks ON on input line 2458.
+(/usr/local/gwTeX/texmf.texlive/tex/latex/ltxmisc/url.sty
+\Urlmuskip=\muskip10
+Package: url 2005/06/27  ver 3.2  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 2613.
+\Fld@menulength=\count106
+\Field@Width=\dimen122
+\Fld@charsize=\dimen123
+\Choice@toks=\toks18
+\Field@toks=\toks19
+Package hyperref Info: Hyper figures OFF on input line 3121.
+Package hyperref Info: Link nesting OFF on input line 3126.
+Package hyperref Info: Hyper index ON on input line 3129.
+Package hyperref Info: backreferencing OFF on input line 3136.
+Package hyperref Info: Link coloring OFF on input line 3141.
+\Hy@abspage=\count107
+\c@Item=\count108
+\c@Hfootnote=\count109
+)
+*hyperref using default driver hpdftex*
+(/usr/local/gwTeX/texmf.texlive/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2007/02/27 v6.75t Hyperref driver for pdfTeX
+\Fld@listcount=\count110
+)
+No file EarSearchUserGuide.aux.
+\openout1 = `EarSearchUserGuide.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 28.
+(/usr/local/gwTeX/texmf.texlive/tex/latex/psnfss/ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+(/usr/local/gwTeX/texmf.texlive/tex/context/base/supp-pdf.tex
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count111
+\scratchdimen=\dimen124
+\scratchbox=\box57
+\nofMPsegments=\count112
+\nofMParguments=\count113
+\MPscratchCnt=\count114
+\MPscratchDim=\dimen125
+\MPnumerator=\count115
+\everyMPtoPDFconversion=\toks20
+)
+Package hyperref Info: Link coloring OFF on input line 28.
+ (/usr/local/gwTeX/texmf.texlive/tex/latex/hyperref/nameref.sty
+Package: nameref 2006/12/27 v2.28 Cross-referencing by name of section
+
+(/usr/local/gwTeX/texmf.texlive/tex/latex/oberdiek/refcount.sty
+Package: refcount 2006/02/20 v3.0 Data extraction from references (HO)
+)
+\c@section@level=\count116
+)
+LaTeX Info: Redefining \ref on input line 28.
+LaTeX Info: Redefining \pageref on input line 28.
+\@outlinefile=\write3
+\openout3 = `EarSearchUserGuide.out'.
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 31.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 31.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 31.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 31.
+
+(/usr/local/gwTeX/texmf.texlive/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 32.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 41.
+
+No file EarSearchUserGuide.bbl.
+[1
+
+{/usr/local/gwTeX/texmf.local/fonts/map/pdftex/updmap/pdftex.map}]
+(./EarSearchUserGuide.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 3060 strings out of 94073
+ 42968 string characters out of 1163504
+ 2098009 words of memory out of 4549205
+ 6330 multiletter control sequences out of 10000+50000
+ 17290 words of font info for 39 fonts, out of 2000000 for 2000
+ 645 hyphenation exceptions out of 5000
+ 25i,6n,36p,222b,335s stack positions out of 5000i,500n,6000p,200000b,50000s
+{/usr/local/gwTeX/texmf.texlive/fonts/enc/dvips/base/8r.enc}</usr/local/gwTeX
+/texmf.texlive/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/gwTeX/texmf.texli
+ve/fonts/type1/urw/times/utmb8a.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1
+/urw/times/utmr8a.pfb>
+Output written on EarSearchUserGuide.pdf (1 page, 41366 bytes).
+PDF statistics:
+ 39 PDF objects out of 1000 (max. 8388607)
+ 11 named destinations out of 1000 (max. 131072)
+ 17 words of extra memory for PDF output out of 10000 (max. 10000000)
+

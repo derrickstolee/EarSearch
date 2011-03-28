@@ -1,0 +1,13 @@
+:I`CC_RA?SAOHWWOAH?`{BA?PB~
+:I`EO?rB?_PoGCXZBB?`obIZ?o~
+--p=16	n=10
+S 3 9 6 20002 20002 2 4 B 19 18 9
+:GaO_`_`o_E@Oqwn
+--p=16	n=8
+S 3 11 4 20001 4 3 8 20001 1 5 8 17 8
+:GaO_`_Ro_baDBSN
+--p=16	n=8
+S 3 11 4 20001 4 20001 1 5 C E A 12 2
+:GaO_`_RJA_THMHN
+--p=16	n=8
+S 3 9 4 20001 4 20001 1 5 12 A 12

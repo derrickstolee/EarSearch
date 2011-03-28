@@ -1,0 +1,4 @@
+allstats
+NAUTY_TIME
+PRUNE_TIME 
+SEARCH_TIME

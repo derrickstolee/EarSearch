@@ -1,0 +1,20 @@
+:I`CC_RA?SAOGIoo_CQ@BwEC?aF
+:I`EO?rB?_PoGGGquEE@B`ESu@`
+--p=28	n=10
+S 4 10 6 20002 20002 2 4 B 19 18 9 11
+:I`CC_RA?SAOGIoo_CQ@BwEC?aF
+:I`EO?rB?_PoGGGquEE@B`ESu@`
+--p=28	n=10
+S 5 10 6 20002 20002 2 4 B 19 18 9 11
+:GaO_`_`NA?WDDw_
+--p=28	n=8
+S 5 13 4 20001 4 3 8 20001 1 5 8 17 8 13 A
+:GaO_`_`o_E@PRwc
+--p=28	n=8
+S 5 13 4 20001 4 3 8 20001 1 5 8 17 8 13 B
+:GaO_`_`o__SL]G@
+--p=28	n=8
+S 5 13 4 20001 4 3 8 20001 1 5 8 17 F 19 3
+:GaO_`_`o_M@Otw_
+--p=28	n=8
+S 5 13 4 20001 4 3 8 20001 1 5 8 17 F 19 C

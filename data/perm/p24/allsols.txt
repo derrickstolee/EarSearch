@@ -1,0 +1,10 @@
+:GaOgJCA`A`AwpSAR
+:GaY?ZECGR`ACtwpV
+--p=24	n=8
+S 4 8 6 20002 2 4 B B 7 7
+:GaO_`_`NA?WDDKmJ
+--p=24	n=8
+S 4 13 4 20001 4 3 8 20001 1 5 8 17 8 13 B
+:GaO_`_`NA?WDDKmJ
+--p=24	n=8
+S 6 13 4 20001 4 3 8 20001 1 5 8 17 8 13 B

@@ -1,0 +1,36 @@
+######################
+## Submitting a bunch of singleton files 
+######################
+
+Universe		= vanilla
+#Universe 		= grid
+#grid_resource 	= gt2 ff-grid.unl.edu/jobmanager-pbs
+Executable		=/home/vinod/dstolee/ears/sat/sat.exe 
+
+Requirements   =  (Arch == "X86_64")  && OpSys == "LINUX" 
+
+PeriodicRelease = ((CurrentTime - EnteredCurrentStatus) > 60) && (HoldReasonCode =!= 1)
+OnExitHold = (ExitStatus =!= 0)
+OnExitRemove = (ExitStatus == 0)
+
+# 'run' to run a job 
+# stages 2, 30, 60 (2 is the 'generated' stage)
+# kill time 50,000 is a little more than 12 hours
+
+x509userproxy = /tmp/x509up_u1556
+Input			= /home/vinod/dstolee/ears/sat/k6n11/in.$(Process)
+Output			= /home/vinod/dstolee/ears/sat/k6n11/out.$(Process)
+Error			= /home/vinod/dstolee/ears/sat/k6n11/err.$(Process)
+Log  			= /home/vinod/dstolee/ears/sat/k6n11/log-k6n11.txt
+
+should_transfer_files = YES
+WhenToTransferOutput = ON_EXIT_OR_EVICT
+notification = never
+
+Arguments               = run -m 10000 -k 3600 --maxsols 11000 --maxjobs 100000 --saturate 6 11 
+ 
+QUEUE $QUEUE_SIZE  
+
+
+
+

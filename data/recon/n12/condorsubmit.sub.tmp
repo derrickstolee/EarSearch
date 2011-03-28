@@ -1,0 +1,36 @@
+######################
+## Submitting a bunch of singleton files 
+######################
+
+Universe		= vanilla
+#Universe 		= grid
+#grid_resource 	= gt2 ff-grid.unl.edu/jobmanager-pbs
+Executable		=/home/vinod/dstolee/ears/recon/recon.exe 
+
+Requirements   =  (Arch == "X86_64")  && OpSys == "LINUX" 
+
+PeriodicRelease = ((CurrentTime - EnteredCurrentStatus) > 60) && (HoldReasonCode =!= 1)
+OnExitHold = (ExitStatus =!= 0)
+OnExitRemove = (ExitStatus == 0)
+
+# 'run' to run a job 
+# stages 2, 30, 60 (2 is the 'generated' stage)
+# kill time 50,000 is a little more than 12 hours
+
+x509userproxy = /tmp/x509up_u1556
+Input			= /home/vinod/dstolee/ears/recon/n12/in.$(Process)
+Output			= /home/vinod/dstolee/ears/recon/n12/out.$(Process)
+Error			= /home/vinod/dstolee/ears/recon/n12/err.$(Process)
+Log  			= /home/vinod/dstolee/ears/recon/n12/log-n12.txt
+
+should_transfer_files = YES
+WhenToTransferOutput = ON_EXIT_OR_EVICT
+notification = never
+
+Arguments               = run -m 10000 -k 3600 --maxsols 11000 --maxjobs 100000 --reconstruction 12 
+ 
+QUEUE $QUEUE_SIZE  
+
+
+
+

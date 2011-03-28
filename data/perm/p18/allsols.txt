@@ -1,0 +1,10 @@
+:GaOgJCA`A`Awp?c
+:GaY?ZECGR`ACtwp
+--p=18	n=8
+S 4 7 6 20002 2 4 B B 7
+:GaO_`_`o_E@PRJa
+--p=18	n=8
+S 4 12 4 20001 4 3 8 20001 1 5 8 17 8 13
+:GaO_`_RJA_RScwc
+--p=18	n=8
+S 4 10 4 20001 4 20001 1 5 12 A E 8
