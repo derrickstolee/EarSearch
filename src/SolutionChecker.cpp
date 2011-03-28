@@ -29,8 +29,11 @@ SolutionChecker::SolutionChecker(int max_depth)
  */
 SolutionChecker::~SolutionChecker()
 {
-	free(this->num_solutions_at);
-	this->num_solutions_at = 0;
+	if ( this->num_solutions_at != 0 )
+	{
+		free(this->num_solutions_at);
+		this->num_solutions_at = 0;
+	}
 }
 
 /**
@@ -74,7 +77,7 @@ char* SolutionChecker::writeStatisticsData()
 {
 	char* buffer = (char*) malloc(100);
 
-	sprintf(buffer, "--no solution statistics to report.\n");
+	sprintf(buffer, "\n");
 
 	return buffer;
 }

@@ -17,6 +17,8 @@
 #include "symmetry.h"
 #include "EarNode.hpp"
 #include "EarSearchManager.hpp"
+#include "Set.hpp"
+#include "TreeSet.hpp"
 
 void printGraphInfo(sparsegraph* g)
 {
@@ -453,6 +455,17 @@ EarNode::EarNode() :
 	this->numMatchings = 2;
 	this->orbitList = 0;
 	this->canonicalLabels = 0;
+	this->adj_matrix_data = 0;
+	this->prune_called = false;
+
+	this->any_adj_zero = true;
+	this->any_adj_two = false;
+	this->dom_vert = false;
+	this->copy_of_H = false;
+	this->barriers = 0;
+	this->num_barriers = 0;
+
+	this->violatingPairs = new TreeSet();
 
 	this->num_child_data = 0;
 	this->size_child_data = 1000;
@@ -469,6 +482,8 @@ EarNode::EarNode(LONG_T label) :
 	this->graph = 0;
 	this->ear_length = 0;
 	this->ear = 0;
+	this->n = 0;
+	this->prune_called = false;
 	this->num_ears = 0;
 	this->ear_list = 0;
 	this->solution_data = 0;
@@ -477,9 +492,17 @@ EarNode::EarNode(LONG_T label) :
 	this->curChild = -1;
 	this->numMatchings = 2;
 	this->orbitList = 0;
+	this->adj_matrix_data = 0;
+	this->barriers = 0;
+	this->num_barriers = 0;
+	this->any_adj_zero = true;
+	this->any_adj_two = false;
+	this->dom_vert = false;
+	this->copy_of_H = false;
 	this->canonicalLabels = 0;
+	this->violatingPairs = new TreeSet();
 	this->num_child_data = 0;
-	this->size_child_data = 1000;
+	this->size_child_data = 100;
 	this->child_data = (GraphData**) malloc(this->size_child_data
 			* sizeof(GraphData*));
 }
@@ -553,6 +576,40 @@ EarNode::~EarNode()
 		this->size_child_data = 0;
 	}
 
+	if ( this->adj_matrix_data != 0 )
+	{
+		for ( int i = 0; i < this->n; i++ )
+		{
+			if ( this->adj_matrix_data[i] != 0 )
+			{
+				free(this->adj_matrix_data[i]);
+				this->adj_matrix_data[i] = 0;
+			}
+		}
+
+		free(this->adj_matrix_data);
+		this->adj_matrix_data = 0;
+	}
+
+	if ( this->violatingPairs != 0 )
+	{
+		delete this->violatingPairs;
+		this->violatingPairs = 0;
+	}
+
+	if ( this->barriers != 0 )
+	{
+		for ( int i = 0; i < this->num_barriers; i++ )
+		{
+			delete this->barriers[i];
+			this->barriers[i] = 0;
+		}
+
+		free(this->barriers);
+		this->barriers = 0;
+		this->num_barriers = 0;
+	}
+
 	this->ear_length = 0;
 }
 
@@ -576,6 +633,47 @@ void EarNode::addGraphData(sparsegraph* g)
 	this->child_data[this->num_child_data] = new GraphData(g);
 
 	(this->num_child_data)++;
+}
+
+/**
+ * initAdjMatrix -- fill the adj_matrix_data arrays
+ */
+void EarNode::initAdjMatrix()
+{
+	if ( this->graph == 0 )
+	{
+		return;
+	}
+
+	this->n = this->graph->nv;
+
+	this->adj_matrix_data = (int**) malloc(this->graph->nv * sizeof(int*));
+	bzero(this->adj_matrix_data, this->graph->nv * sizeof(int*));
+
+	for ( int i = 0; i < this->graph->nv; i++ )
+	{
+		this->adj_matrix_data[i] = (int*) malloc((this->graph->nv + 1)
+				* sizeof(int));
+		bzero(this->adj_matrix_data[i], (this->graph->nv + 1) * sizeof(int));
+	}
+
+	for ( int i = 0; i < this->graph->nv; i++ )
+	{
+		/* for all adjacencies, add -1's */
+		for ( int j = 0; j < this->graph->d[i]; j++ )
+		{
+			int vertj = this->graph->e[this->graph->v[i] + j];
+
+			//			if ( vertj < i )
+			//			{
+			/* fill in the adjacency */
+
+			this->adj_matrix_data[i][vertj] = -1;
+			this->adj_matrix_data[vertj][i] = -1;
+
+			//			}
+		}
+	}
 }
 
 /**
@@ -618,6 +716,7 @@ EarSearchManager::EarSearchManager(int max_n, PruningAlgorithm* algorithm,
 	}
 
 	this->root = new EarNode(0);
+	((EarNode*) this->root)->max_verts = this->max_n;
 
 	/* set to a two cycle so that three cycle is the start */
 	this->root->curChild = 2;
@@ -684,13 +783,15 @@ LONG_T EarSearchManager::pushNext()
 	do
 	{
 		orbit++;
+		/* TODO: test orbit for being allowed */
 
 		if ( orbit >= parent->numPairOrbits )
 		{
 			length++;
 			orbit = 0;
 
-			if ( length + g->nv > this->max_n )
+			/* Bound by parent->max_verts (derrickstolee 02/04/2011) */
+			if ( length + g->nv > parent->max_verts )
 			{
 				/* time to stop branching here */
 				return -1;
@@ -700,7 +801,10 @@ LONG_T EarSearchManager::pushNext()
 		indexToPair(g->nv, parent->orbitList[orbit][0], orb1, orb2);
 
 		/* if length == 0 and these are adjacent, we must continue */
-	} while ( length == 0 && areAdjacent(g, orb1, orb2) );
+		/* Also, if this is a "violating pair" then we must continue */
+	} while ( (length == 0 && areAdjacent(g, orb1, orb2))
+			|| parent->violatingPairs->contains(parent->orbitList[orbit][0])
+					== 1 );
 
 	//	printf("--augmenting length %d onto orbit %d, %d\n", length,
 	//			parent->pairOrbits1[orbit], parent->pairOrbits2[orbit]);
@@ -741,6 +845,7 @@ LONG_T EarSearchManager::pushTo(LONG_T child)
 		//		printf("--[pushNext] \t\t MAKING A CYCLE OF LENGTH %d.\n", cycle_l);
 
 		EarNode* node = new EarNode(cycle_l);
+		node->max_verts = ear_root->max_verts;
 
 		/* Need to make a cycle! */
 		node->graph = (sparsegraph*) malloc(sizeof(sparsegraph));
@@ -760,7 +865,7 @@ LONG_T EarSearchManager::pushTo(LONG_T child)
 		bzero(g->d, this->max_n * sizeof(int));
 		bzero(g->e, this->max_n * this->max_n * sizeof(int));
 
-		for ( int i = 0; i < this->max_n; i++ )
+		for ( int i = 0; i < ear_root->max_verts; i++ )
 		{
 			g->v[i] = i * this->max_n;
 
@@ -818,11 +923,13 @@ LONG_T EarSearchManager::pushTo(LONG_T child)
 	length = param_length;
 	indexToPair(g->nv, parent->orbitList[orbit][0], orb1, orb2);
 
-	if ( length == 0 && areAdjacent(g, orb1, orb2) )
+	if ( (length == 0 && areAdjacent(g, orb1, orb2))
+			|| parent->violatingPairs->contains(parent->orbitList[orbit][0])
+					== 1 )
 	{
 		/* this is a problem! */
-		printf("--[pushNext] failing due to adjacent endpoints??? %d,%d\n",
-				orb1, orb2);
+		/* we can't add a multiedge */
+		/* OR this pair is a violating pair! */
 		return -1;
 	}
 
@@ -878,6 +985,7 @@ LONG_T EarSearchManager::pushTo(LONG_T child)
 
 	/* MAKE A NEW NODE! */
 	EarNode* node = new EarNode(label);
+	node->max_verts = parent->max_verts;
 	node->graph = g;
 
 	/* EAR INFORMATION */
@@ -1385,7 +1493,7 @@ char* EarSearchManager::writeStatistics()
 
 	int buf_pos = buf_len;
 
-	buf_len += 2000 + 500 * this->maxDepth;
+	buf_len += 2000 + 500 * this->maxDepth + 500 * this->checker->getMaxDepth();
 	buffer = (char*) realloc(buffer, buf_len);
 
 	int total_solutions = 0;
@@ -1404,6 +1512,12 @@ char* EarSearchManager::writeStatistics()
 	buf_pos += strlen(&(buffer[buf_pos]));
 
 	char* checkBuff = this->checker->writeStatisticsData();
+	int check_len = strlen(checkBuff);
+	if ( buf_pos + check_len + 1 > buf_len )
+	{
+		buf_len += check_len + 10;
+		buffer = (char*) realloc(buffer, buf_len);
+	}
 	sprintf(&(buffer[buf_pos]), "%s", checkBuff);
 	free(checkBuff);
 

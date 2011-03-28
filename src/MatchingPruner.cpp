@@ -6,10 +6,16 @@
  */
 
 #include <stdio.h>
+#include "pairs.h"
 #include "gtools.h"
+#include "bipartite.hpp"
 #include "MatchingPruner.hpp"
 #include "permcount.h"
 #include "BarrierAlgorithm.hpp"
+#include "BarrierSearch.hpp"
+#include "BarrierNode.hpp"
+#include "Set.hpp"
+#include "TreeSet.hpp"
 
 /**
  * Constructor
@@ -55,9 +61,96 @@ int MatchingPruner::checkPrune(EarNode* parent, EarNode* child)
 		return 1;
 	}
 
-	if ( parent == 0 )
+	if ( parent == 0 || parent->graph == 0 )
 	{
-		//		printf("--[MatchingPruner] No parent.\n");
+		/* no parent means this is the start, and we must generate our list of barriers */
+		int cn = cg->nv;
+
+		//		printf("--filling barriers for the %d cycle...", cn);
+		int num_barriers = (1 << (cn / 2 + 1));
+		int max_index = (1 << (cn / 2));
+		/* there are 2*(2^{n/2}-1-n/2) non-singleton non-empty barriers in C_{n} */
+
+		child->barriers = (BarrierNode**) malloc(num_barriers * sizeof(BarrierNode*));
+		child->num_barriers = num_barriers;
+
+		num_barriers = 0;
+		int* components = (int*) malloc(cn * sizeof(int));
+		Set* verts = new TreeSet();
+
+		for ( int p = 0; p < 2; p++ )
+		{
+			/* for parity 0 and 1 */
+			for ( int index = 0; index < max_index; index++ )
+			{
+				/* for all incidence vectors */
+				/* try to add a new barrier */
+				int last_j = 0;
+				int cur_comp = 0;
+				for ( int j = 0; j < cn / 2; j++ )
+				{
+					if ( (index & (1 << j)) == 0 )
+					{
+						/* add this element */
+						verts->add(2 * j + p);
+
+						for ( int k = last_j; k < 2 * j + p; k++ )
+						{
+							components[k % cn] = cur_comp;
+						}
+
+						cur_comp++;
+
+						/* this element has no component */
+						components[(2 * j + p) % cn] = -1;
+						last_j = 2 * j + 1 + p;
+					}
+				}
+
+				if ( verts->contains(0) != 0 )
+				{
+					for ( int k = last_j; k < cn + p; k++ )
+					{
+						/* this is the last component! */
+						components[k % cn] = cur_comp;
+					}
+				}
+				else
+				{
+					for ( int k = last_j; k < cn + p; k++ )
+					{
+						/* this is the first component! */
+						components[k % cn] = 0;
+					}
+				}
+
+				if ( verts->size() > 0 )
+				{
+					child->barriers[num_barriers] = new BarrierNode(verts, cn, components);
+					num_barriers++;
+				}
+
+				verts->clear();
+			}
+		}
+
+		/* add the empty barrier */
+		bzero(components, cn * sizeof(int));
+		child->barriers[num_barriers] = new BarrierNode(verts, cn, components);
+		num_barriers++;
+
+		child->num_barriers = num_barriers;
+
+		//		printf("%d such barriers.\n", num_barriers);
+
+		delete verts;
+		verts = 0;
+		free(components);
+		components = 0;
+
+		child->extendable = true;
+		child->numMatchings = 2;
+
 		return 0;
 	}
 
@@ -82,27 +175,7 @@ int MatchingPruner::checkPrune(EarNode* parent, EarNode* child)
 		return 1;
 	}
 
-	if ( cg_matchings > this->pmax )
-	{
-		/* this is bad and unallowed */
-		//		printf("--[MatchingPruner] Too many perfect matchings (P >= %d): %s",
-		//				cg_matchings, sgtos6(cg));
-		return 1;
-	}
-
-	if ( parent->graph == 0 )
-	{
-		//		//printf("--[MatchingPruner] No parent graph.\n");
-		return 0;
-	}
-
 	/* NEW perfect matchings are those with these covered */
-
-	if ( parent->ear == 0 )
-	{
-		/* parent is a cycle... anything goes! */
-		parent->extendable = true;
-	}
 
 	if ( child->ear == 0 )
 	{
@@ -112,10 +185,28 @@ int MatchingPruner::checkPrune(EarNode* parent, EarNode* child)
 		return 0;
 	}
 
+	if ( cg_matchings > this->pmax )
+	{
+		/* if too many perfect matchings, we can NEVER augment here! */
+		int p1 = child->ear[0];
+		int p2 = child->ear[child->ear_length + 1];
+		int index = pairToIndex(parent->graph->nv, p1, p2);
+
+		/* remove this pair from the parent */
+		parent->violatingPairs->add(index);
+
+		return 1;
+	}
+
+	/* add violating pairs to the child! */
+	for ( parent->violatingPairs->resetIterator(); parent->violatingPairs->hasNext(); )
+	{
+		child->violatingPairs->add(parent->violatingPairs->next());
+	}
+
 	/* TIME TO CHECK 1-EXTENDABILITY */
 	int v1 = child->ear[0];
 	int v2 = child->ear[child->ear_length + 1];
-
 
 	/* If G-uv has perfect matchings, we are 1-extendable... */
 	/* the parent graph is the same data */
@@ -247,35 +338,97 @@ int MatchingPruner::checkPrune(EarNode* parent, EarNode* child)
 		}
 	}
 
-	/* prune based on barrier density */
-	int max_edges = getMaximumElementarySize(cg);
-
-	if ( max_edges + 2 * (this->pmax - cg_matchings) + ((this->n - cg->nv)/2) < (cg->nv * cg->nv) / 4
-			+ this->c )
+	/* time to augment the barriers */
+	/* do a one-ear (this works even if the parent is not 1-extendable) */
+	/* since augmenting by each ear individually works out */
+	int** ear_list = (int**) malloc(2 * sizeof(int*));
+	ear_list[0] = (int*) malloc((child->ear_length + 2) * sizeof(int));
+	for ( int i = 0; i <= child->ear_length + 1; i++ )
 	{
-		return 1;
+		ear_list[0][i] = child->ear[i];
 	}
+	int* ear_lengths = (int*) malloc(2 * sizeof(int));
+	ear_lengths[0] = child->ear_length;
+	int num_new_barriers = 0;
+	child->barriers = constructBarriers(parent->barriers, parent->num_barriers, ear_list, ear_lengths, 1,
+			num_new_barriers);
+	child->num_barriers = num_new_barriers;
 
-	/**
-	 * The following prune is from the pruning algorithm, following
-	 * 	Lemma \ref{lma:pruning} (Currently, 4.4.9)
-	 */
-	int constant = max_edges - (cg->nv * cg->nv) / 4;
+	free(ear_list[0]);
+	free(ear_list);
+	free(ear_lengths);
 
-	bool can_reach = false;
-	for ( int between_n = cg->nv; between_n <= this->n; between_n += 2 )
+	/* check bipartite */
+	if ( isBipartite(cg) )
 	{
-		int between_constant = constant + 2*(this->pmax - cg_matchings) - ((between_n-cg->nv)*(cg->nv - 2))/4;
-		if ( between_constant >= this->c )
+		/* max_edges is easy to compute! */
+		/* num_edges plus (n/2 choose 2) */
+		int max_edges = (cg->nde) / 2 + (cg->nv * (cg->nv - 2)) / 8;
+
+		if ( max_edges + 2 * (this->pmax - cg_matchings) + ((this->n - cg->nv) / 2) < (cg->nv * cg->nv) / 4 + this->c )
 		{
-			can_reach = true;
-			break;
+			return 1;
+		}
+
+		/**
+		 * The following prune is from the pruning algorithm, following
+		 * 	Lemma \ref{lma:pruning} (Currently, 4.4.9)
+		 */
+		int constant = max_edges - (cg->nv * cg->nv) / 4;
+
+		bool can_reach = false;
+		for ( int between_n = cg->nv; between_n <= this->n; between_n += 2 )
+		{
+			int between_constant = constant + 2 * (this->pmax - cg_matchings) - ((between_n - cg->nv) * (cg->nv - 2))
+					/ 4;
+			if ( between_constant >= this->c )
+			{
+				can_reach = true;
+
+				/* this is an acceptable value for N */
+				child->max_verts = between_n;
+			}
+		}
+
+		if ( !can_reach )
+		{
+			return 1;
 		}
 	}
-
-	if ( !can_reach )
+	if ( child->num_barriers < 1000 )
 	{
-		return 1;
+		/* prune based on barrier density, but only for "small" number of barriers */
+		int max_edges = searchAllBarrierExtensions(child->graph, child->barriers, child->num_barriers);
+
+		if ( max_edges + 2 * (this->pmax - cg_matchings) + ((this->n - cg->nv) / 2) < (cg->nv * cg->nv) / 4 + this->c )
+		{
+			return 1;
+		}
+
+		/**
+		 * The following prune is from the pruning algorithm, following
+		 * 	Lemma \ref{lma:pruning} (Currently, 4.4.9)
+		 */
+		int constant = max_edges - (cg->nv * cg->nv) / 4;
+
+		bool can_reach = false;
+		for ( int between_n = cg->nv; between_n <= this->n; between_n += 2 )
+		{
+			int between_constant = constant + 2 * (this->pmax - cg_matchings) - ((between_n - cg->nv) * (cg->nv - 2))
+					/ 4;
+			if ( between_constant >= this->c )
+			{
+				can_reach = true;
+
+				/* this is an acceptable value for N */
+				child->max_verts = between_n;
+			}
+		}
+
+		if ( !can_reach )
+		{
+			return 1;
+		}
 	}
 
 	return 0;

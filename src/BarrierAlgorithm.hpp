@@ -10,6 +10,15 @@
 
 #include "nausparse.h"
 
+
+void printModifiedGraphBarrier(sparsegraph* g);
+
+
+void makeBarrierComplete(sparsegraph* graph, int* barrier, int num_elts);
+
+
+void makeBarrierIndependent(sparsegraph* graph, int* barrier, int num_elts);
+
 /**
  * enumerateOptimalBarrierExtensions
  *

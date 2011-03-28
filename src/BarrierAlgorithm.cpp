@@ -84,6 +84,7 @@ void printModifiedGraphBarrier(sparsegraph* g)
 	free(down_verts);
 	free(rev_verts);
 
+//	printf("--c=%d\n", (sg.nde / 2) - (sg.nv * sg.nv) / 4);
 	printf("%s", sgtos6(&sg));
 
 	SG_FREE(sg);
@@ -110,8 +111,7 @@ void makeBarrierComplete(sparsegraph* graph, int* barrier, int num_elts)
 				{
 					if ( graph->e[graph->v[barrier[i]] + k] == barrier[j] )
 					{
-						printf(
-								"--[makeBarrierComplete] Trying to add edge %d->%d but it's already there! \n",
+						printf("--[makeBarrierComplete] Trying to add edge %d->%d but it's already there! \n",
 								barrier[i], barrier[j]);
 					}
 				}
@@ -150,8 +150,7 @@ void makeBarrierIndependent(sparsegraph* graph, int* barrier, int num_elts)
 	graph->nde = graph->nde - (num_elts * (num_elts - 1));
 }
 
-void refineBarriers(sparsegraph* graph, int* num_barriers, int*** barriers,
-		int** b_sizes)
+void refineBarriers(sparsegraph* graph, int* num_barriers, int*** barriers, int** b_sizes)
 {
 	/* will allocate the arrays... */
 	int* barrier_rep = (int*) malloc(graph->nv * sizeof(int));
@@ -248,8 +247,7 @@ void refineBarriers(sparsegraph* graph, int* num_barriers, int*** barriers,
  *
  * @return true if it finds at least one.
  */
-bool fillBarriers(sparsegraph* graph, int goalEdges, int num_barriers,
-		int** barriers, int* b_sizes)
+bool fillBarriers(sparsegraph* graph, int goalEdges, int num_barriers, int** barriers, int* b_sizes)
 {
 
 	bool all_complete = true;
@@ -355,12 +353,10 @@ bool fillBarriers(sparsegraph* graph, int goalEdges, int num_barriers,
 			int** new_barriers;
 			int* new_b_sizes;
 
-			refineBarriers(graph, &new_num_barriers, &new_barriers,
-					&new_b_sizes);
+			refineBarriers(graph, &new_num_barriers, &new_barriers, &new_b_sizes);
 
 			/* recurse */
-			result = fillBarriers(graph, goalEdges, new_num_barriers,
-					new_barriers, new_b_sizes) || result;
+			result = fillBarriers(graph, goalEdges, new_num_barriers, new_barriers, new_b_sizes) || result;
 
 			/* free, and reset graph */
 			for ( int j = 0; j < new_num_barriers; j++ )
@@ -411,8 +407,7 @@ bool enumerateOptimalBarrierExtensions(sparsegraph* graph, int goalEdges)
 	refineBarriers(graph, &new_num_barriers, &new_barriers, &new_b_sizes);
 
 	/* recurse */
-	bool result = fillBarriers(graph, goalEdges, new_num_barriers,
-			new_barriers, new_b_sizes);
+	bool result = fillBarriers(graph, goalEdges, new_num_barriers, new_barriers, new_b_sizes);
 
 	/* free, and reset graph */
 	for ( int j = 0; j < new_num_barriers; j++ )
@@ -534,8 +529,7 @@ bool is1Extendable(sparsegraph* g)
 	return result;
 }
 
-int fillBarriersToMax(sparsegraph* g, int num_barriers, int** barriers,
-		int* b_sizes)
+int fillBarriersToMax(sparsegraph* g, int num_barriers, int** barriers, int* b_sizes)
 {
 	bool all_complete = true;
 	int max_empty_size = 0;
@@ -621,8 +615,7 @@ int fillBarriersToMax(sparsegraph* g, int num_barriers, int** barriers,
 			refineBarriers(g, &new_num_barriers, &new_barriers, &new_b_sizes);
 
 			/* recurse */
-			int par_result = fillBarriersToMax(g, new_num_barriers,
-					new_barriers, new_b_sizes);
+			int par_result = fillBarriersToMax(g, new_num_barriers, new_barriers, new_b_sizes);
 
 			if ( par_result > result )
 			{
@@ -666,8 +659,7 @@ int getMaximumElementarySize(sparsegraph* g)
 	refineBarriers(g, &new_num_barriers, &new_barriers, &new_b_sizes);
 
 	/* recurse */
-	int result = fillBarriersToMax(g, new_num_barriers, new_barriers,
-			new_b_sizes);
+	int result = fillBarriersToMax(g, new_num_barriers, new_barriers, new_b_sizes);
 
 	/* free, and reset graph */
 	for ( int j = 0; j < new_num_barriers; j++ )

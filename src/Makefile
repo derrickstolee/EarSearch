@@ -9,6 +9,9 @@ TARGETS = EarSearch.exe \
 
 
 OBJECTS = 	BarrierAlgorithm.o		\
+			BarrierNode.o			\
+			BarrierSearch.o			\
+			bipartite.o				\
 			EarDeletionAlgorithm.o	\
 			EarSearchManager.o		\
 			pairs.o					\
@@ -20,7 +23,10 @@ OBJECTS = 	BarrierAlgorithm.o		\
 			ReconstructionChecker.o	\
 			ReconstructionDeleter.o	\
 			ReconstructionPruner.o	\
-			SolutionChecker.o		\
+			SaturationAlgorithm.o	\
+			Set.o			\
+			SolutionChecker.o	\
+			TreeSet.o		\
 			EnumerateChecker.o      \
 			EnumeratePruner.o       \
 			EnumerateDeleter.o      \
@@ -31,7 +37,7 @@ OBJECTS = 	BarrierAlgorithm.o		\
 CC 	= gcc
 CXX = g++
 
-OPT =  -O7
+OPT = -O7 
 DEBUG =  
 # -g 
 # -static 
@@ -47,8 +53,7 @@ INCLUDES =  -I../treesearch \
 			-I../nauty24r2 
 
 
-TREESEARCHOBJS	= ../treesearch/SearchManager.o \
-				  ../treesearch/treesearch.o
+TREESEARCHOBJS	= ../treesearch/SearchManager.o 
 				  
 NAUTYOBJS     	= ../nauty24r2/nauty.o 			\
 				  ../nauty24r2/nausparse.o		\

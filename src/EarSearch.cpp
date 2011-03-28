@@ -25,6 +25,8 @@
 #include "MatchingChecker.hpp"
 #include "MatchingDeleter.hpp"
 
+#include "SaturationAlgorithm.hpp"
+
 /**
  * The EarSearch program will run an instance of TreeSearch using
  * the EarSearchManager.  There are two modes:
@@ -45,6 +47,7 @@ int main(int argc, char** argv)
 	int RECONST_MODE = 0;
 	int PERFECT_MODE = 1;
 	int ENUM_MODE = 2;
+	int SATURATE_MODE = 3;
 
 	int find_pmin = -1;
 	int find_pmax = -1;
@@ -66,7 +69,7 @@ int main(int argc, char** argv)
 
 			if ( i > argc - 3 )
 			{
-				printf("Usage: --enumerate N e E n\n");
+				printf("Usage: --enumerate N e E \n");
 				exit(1);
 			}
 
@@ -80,7 +83,55 @@ int main(int argc, char** argv)
 
 			i += 3;
 		}
-		if ( strcmp(argv[i], "--reconstruction") == 0 )
+		else if ( strcmp(argv[i], "--saturate") == 0 )
+		{
+			mode = SATURATE_MODE;
+
+			if ( i > argc - 2 )
+			{
+				printf("Usage: --saturate k n\n");
+				exit(1);
+			}
+
+			sscanf(argv[i + 1], "%d", &find_c);
+			sscanf(argv[i + 2], "%d", &find_n);
+
+			/* CURRENTLY: ONLY K_k UNIQUE SATURATION */
+			SaturationAlgorithm* sat_alg = new SaturationAlgorithm((GRAPH_K | find_c),
+					SAT_OUTPUT_SOLUTIONS,
+					true, (find_n * find_n) / 2);
+
+			checker = sat_alg;
+			pruner = sat_alg;
+			deleter = new EnumerateDeleter();
+
+			i += 3;
+		}
+		else if ( strcmp(argv[i], "--satgen") == 0 )
+		{
+			mode = SATURATE_MODE;
+
+			if ( i > argc - 2 )
+			{
+				printf("Usage: --satgen k n\n");
+				exit(1);
+			}
+
+			sscanf(argv[i + 1], "%d", &find_c);
+			sscanf(argv[i + 2], "%d", &find_n);
+
+			/* CURRENTLY: ONLY K_k UNIQUE SATURATION */
+			SaturationAlgorithm* sat_alg = new SaturationAlgorithm((GRAPH_K | find_c),
+					SAT_OUTPUT_ALL,
+					true, (find_n * find_n) / 2);
+
+			checker = sat_alg;
+			pruner = sat_alg;
+			deleter = new EnumerateDeleter();
+
+			i += 3;
+		}
+		else if ( strcmp(argv[i], "--reconstruction") == 0 )
 		{
 			mode = RECONST_MODE;
 
@@ -100,7 +151,7 @@ int main(int argc, char** argv)
 		}
 		else if ( strcmp(argv[i], "--matchings") == 0 )
 		{
-			if ( i > argc - 4 )
+			if ( i > argc - 5 )
 			{
 				printf("Usage: --matchings pmin pmax n c\n");
 				exit(1);
@@ -123,12 +174,12 @@ int main(int argc, char** argv)
 
 	if ( mode < 0 )
 	{
-		printf(
-				"We require a mode! (--reconstruction n  or  --matchings p n)\n");
+		printf("We require a mode! (--reconstruction n  or  --matchings p n or --saturate k n)\n");
 		exit(1);
 	}
 
-	EarSearchManager* manager = new EarSearchManager(find_n, pruner, checker, deleter);
+	EarSearchManager* manager = new EarSearchManager(find_n, pruner, checker,
+			deleter);
 
 	manager->importArguments(argc, argv);
 
@@ -139,7 +190,12 @@ int main(int argc, char** argv)
 
 	delete manager;
 	delete pruner;
-	delete checker;
+
+	if ( mode != SATURATE_MODE )
+	{
+		delete checker;
+	}
+
 	delete deleter;
 
 	return 0;

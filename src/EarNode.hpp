@@ -10,6 +10,8 @@
 
 #include "nausparse.h"
 #include "SearchManager.hpp"
+#include "BarrierNode.hpp"
+#include "Set.hpp"
 
 class GraphData
 {
@@ -19,6 +21,7 @@ public:
 
 	/* number of undirected edges */
 	int e;
+
 
 	/**
 	 * deg_seq
@@ -129,6 +132,11 @@ public:
 	 */
 	sparsegraph* graph;
 
+	/**
+	 * max_verts -- the maximum number of vertices in
+	 * all supergraphs. Default to max_n from search
+	 */
+	int max_verts;
 
 	/**
 	 * reconstructible -- TRUE if detectably reconstructible
@@ -162,6 +170,48 @@ public:
 	 */
 	int numMatchings;
 
+	/**
+	 * adj_matrix_data -- Data on the edges.
+	 */
+	int** adj_matrix_data;
+
+	/**
+	 * initAdjMatrix -- fill the adj_matrix_data arrays
+	 */
+	void initAdjMatrix();
+
+	/**
+	 * violatingPairs -- A set of pair indices which cannot be
+	 * endpoints of an ear!
+	 */
+	Set* violatingPairs;
+
+	/**
+	 * any_adj_zero -- are any of the cells in adj_matrix_data zero?
+	 */
+	bool any_adj_zero;
+
+
+	/**
+	 * any_adj_two -- are any of the cells in adj_matrix_data at least two?
+	 */
+	bool any_adj_two;
+
+
+	/**
+	 * dom_vert -- there is a dominating vertex
+	 */
+	bool dom_vert;
+
+	/**
+	 * copy_of_H -- there is a copy_of_H
+	 */
+	bool copy_of_H;
+
+	/**
+	 * prune_called
+	 */
+	bool prune_called;
 
 	/**
 	 * child_data -- the GraphData objects for immediate children, used for pairwise comparison.
@@ -171,6 +221,16 @@ public:
 	int num_child_data;
 	int size_child_data;
 	GraphData** child_data;
+
+	/**
+	 * barriers -- The list of barriers of the graph
+	 */
+	BarrierNode** barriers;
+
+	/**
+	 * num_barriers -- the number of barriers in the graph.
+	 */
+	int num_barriers;
 
 	/**
 	 * n -- the number of vertices at this level
