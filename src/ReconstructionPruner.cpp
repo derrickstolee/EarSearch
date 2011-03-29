@@ -61,7 +61,8 @@ int ReconstructionPruner::checkPrune(EarNode* parent, EarNode* child)
 		return 1;
 	}
 
-	if ( child->graph->nde >= 2 * this->logFacts[child->graph->nv] )
+	/* if there are more edges than we want on the N-vertex graph, prune. */
+	if ( child->graph->nde > 2 * this->logFacts[this->n] )
 	{
 		/* we are too dense! */
 		return 1;

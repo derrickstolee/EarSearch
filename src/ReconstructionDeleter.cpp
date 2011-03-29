@@ -65,6 +65,10 @@ int ReconstructionDeleter::getCanonical(EarNode* parent, EarNode* child)
 			}
 		}
 
+		/**
+		 * If the graph is regular,
+		 * 	it is reconstructible.
+		 */
 		if ( reg_degree > 0 )
 		{
 			reconstructible = true;
@@ -87,6 +91,7 @@ int ReconstructionDeleter::getCanonical(EarNode* parent, EarNode* child)
 
 		/* ALSO CHECK: some vertex has all incident ears non-trivial */
 		bool some_vert_all_trivial = false;
+		bool some_vert_all_nontrivial = false;
 
 		for ( int i = 0; i < graph->nv; i++ )
 		{
@@ -102,6 +107,7 @@ int ReconstructionDeleter::getCanonical(EarNode* parent, EarNode* child)
 				{
 					vert_i_all_trivial = false;
 				}
+
 
 				/* which ear is this? */
 				char ear_ij[3];
@@ -131,6 +137,10 @@ int ReconstructionDeleter::getCanonical(EarNode* parent, EarNode* child)
 			{
 				some_vert_all_trivial = true;
 			}
+			else
+			{
+				some_vert_all_nontrivial = true;
+			}
 		}
 
 		int min_used_deg1 = -1;
@@ -155,7 +165,14 @@ int ReconstructionDeleter::getCanonical(EarNode* parent, EarNode* child)
 		free(pair_used);
 		pair_used = 0;
 
-		if ( some_vert_all_trivial == false )
+
+		/**
+		 * If there is a branch vertex
+		 * 	incident to only non-trivial ears,
+		 * 	then it is reconstructible.
+		 * (Proposition 4.2.6. (2))
+		 */
+		if ( some_vert_all_nontrivial == true )
 		{
 			reconstructible = true;
 		}
@@ -174,6 +191,11 @@ int ReconstructionDeleter::getCanonical(EarNode* parent, EarNode* child)
 					lengthi++;
 				}
 
+				/**
+				 * If there exists an ear with at least two
+				 * 	internal vertices, then G is reconstructible.
+				 * (Proposition 4.2.6 (1))
+				 */
 				if ( lengthi > 2 )
 				{
 					/* ear too long! */
