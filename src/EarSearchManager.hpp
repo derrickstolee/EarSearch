@@ -29,6 +29,17 @@ protected:
 	 */
 	int max_n;
 
+	/**
+	 * require_all_siblings
+	 *
+	 * If TRUE, the pushTo method will generate all previous siblings
+	 * before continuing.
+	 *
+	 * This is necessary for the reconstruction application
+	 * during the execution of partial jobs.
+	 */
+	bool require_all_siblings;
+
 
 	/**
 	 * augment

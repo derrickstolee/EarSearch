@@ -21,6 +21,9 @@ ReconstructionChecker::ReconstructionChecker(int n) :
 {
 	this->n = n;
 
+	/* we need all siblings for this application */
+	this->require_all_siblings = true;
+
 	this->numAtDepth = (int*) malloc(10 * sizeof(int));
 	bzero(this->numAtDepth, 10 * sizeof(int));
 }

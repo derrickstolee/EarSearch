@@ -18,6 +18,7 @@
 SolutionChecker::SolutionChecker(int max_depth)
 {
 	this->max_depth = max_depth;
+	this->require_all_siblings = false;
 	this->num_solutions_at = (int*) malloc(max_depth * sizeof(int));
 	bzero(this->num_solutions_at, max_depth * sizeof(int));
 }

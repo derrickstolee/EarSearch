@@ -2,7 +2,8 @@
 \usepackage{times, graphicx,float, multicol}
 \usepackage[rflt]{floatflt}
 \usepackage{hyperref}
-
+\usepackage{algorithm,algorithmic}
+\usepackage{multirow}
 
 \setlength{\textwidth}{6.5in}
 \setlength{\textheight}{9.0in}
@@ -41,6 +42,9 @@
 \section{Introduction}
 \label{sec:Introduction}
 
+The EarSearch library implements the generation algorithm of
+	\cite{IsomorphFreeGen} to generate families of 2-connected graphs.
+
 
 \section{Data Management}
 
@@ -60,22 +64,269 @@
 
 
 
-\section{Example 0: Enumerating All 2-Connected Graphs}
+\section{Example 0: 2-Connected Graphs}
+
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}[h]{c|r|r@{ }r@{ }r@{ }r@{.}l}
+		\multicolumn{1}{c|}{$N$} & \multicolumn{1}{c|}{$C_N$} & \multicolumn{5}{c}{CPU time}\\
+		\hline 
+		  5 &        10 & &&& 0&01s \\
+		  6 &        56 & &&& 0&11s \\
+		  7 &       468 & &&& 0&26s \\
+		  8 &      7123 & &&& 10&15s \\
+		  9 &    194066 & && 5m & 17&27s \\
+		 10 &   9743542 & &  7h & 39m  & 28&47s \\
+		 11 & 900969091 & 71d & 22h & 22m  & 49&12s \\
+	\end{tabular}
+	\caption{\label{tab:2connectedTime}Comparing $C_N$ and %
+		the time to enumerate $\mathcal{C}_{N}$.}
+\end{table}
+
+
+
+\begin{table}[ht]
+	\centering
+	\small
+	\begin{tabular}[h]{r||r|r|r|r|r|r|r|r|r|r}
+		$N$ &  $E=11$ & $E=12$ & $E=13$ & $E=14$ & $E=15$ 
+		 & $E=16$ & $E=17$ & $E=18$ & $E=19$ & $E=20$ \\
+		\hline 
+		 \multirow{2}{*}{$10$} & 9 & 121 & 1034 & 5898 & 23370 & 69169 & 162593 & 317364 & 530308 & 774876 \\
+				 			    & 0.01 &  0.16 & 1.73 &12.99 & 65.88 & 167.12 & 472.68 & 972.62 & 2048.85 & 3631.71 \\
+		\hline
+		 \multirow{2}{*}{$11$} && 11 & 189  & 2242 & 17491 & 94484 & 380528 & 1212002 & 3194294 & 7197026  \\
+				 			   && 0.02 & 0.38 & 5.52 & 56.10 & 260.53 & 1212.89 & 4069.09 & 13104.24 & 32836.53 \\
+		\hline
+		 \multirow{2}{*}{$12$}  &&& 13 & 292 & 4544 & 46604 & 334005 & 1747793 & 7274750 &
+ 24972998 \\
+				 			   &&& 0.03 & 0.86 & 17.56 & 286.00 & 1226.71 & 6930.00 & 33066.80 & 125716.68  \\
+		\hline
+		 \multirow{2}{*}{$13$}  &&&& 15 & 428 & 8618 & 113597 & 1031961 & 6945703 & 36734003 \\
+				 			    &&&& 0.05 & 1.83 & 44.64 & 469.02 & 5174.92 & 39018.15 & 227436.84 \\
+		\hline
+		 \multirow{2}{*}{$14$}  &&&&& 18 & 616 & 15588 & 257656 & 2925098 & 24532478  \\
+				 			    &&&&& 0.08 & 3.82 & 90.51 & 1573.81 & 21402.18 & 183482.70 \\
+		\hline
+		 \multirow{2}{*}{$15$}  &&&&&& 20 & 855 & 26967 & 519306 & 7654299  \\
+				 			     &&&&&& 0.12 & 7.56 & 198.84 & 4567.43 & 76728.79 \\
+		\hline
+		 \multirow{2}{*}{$16$}  &&&&&&& 23 & 1176 & 44992 & 1111684  \\
+				 			     &&&&&& & 0.18 & 15.56 & 498.20 & 13176.05 \\
+	\end{tabular}
+	\caption{\label{tab:CNE}Comparing $C_{N,E}$ (above) and the time to enumerate $\mathcal{C}_{N,E}$ (below, in seconds).}
+\end{table}
+
+
 
 \section{Example 1: Unique Saturation}
 
 
+
+\def\cU{\mathcal{U}}
+\begin{table}[ht]
+	\centering
+	\begin{tabular}[h]{c|r@{ }r@{ }r@{ }r@{ }r@{.}l|r@{ }r@{ }r@{ }r@{ }r@{.}l|r@{ }r@{ }r@{ }r@{ }r@{.}l}
+		\multicolumn{1}{c|}{$N$} 
+			 & \multicolumn{6}{c|}{CPU time for $r = 4$} 
+			 & \multicolumn{6}{c|}{CPU time for $r = 5$} 
+			 & \multicolumn{6}{c}{CPU time for $r = 6$}\\
+		\hline 
+		  8 &   
+		    &   &    &   &    1&01s &
+		    &   &    &   &    7&90s &
+		    &   &    &   &    8&80s \\  
+		  9 
+		    &   &    &   &    & 31&51s  &
+		     &  &  &  4m & 12&75s &
+		     &  &  &  4m & 14&90s \\
+		  10 & 
+		  		&  &  & 29m & 31&46s   &
+				&  &  5h & 24m & 38&29s &
+				 &  &  8h &  0m & 47&43s \\
+
+		  11 &
+		  &   1d &  8h & 13m & 59&16s  &
+		  	&  44d & 20h & 39m & 34&66s &
+			 &  63d & 13h & 31m & 24&30s \\
+		  12 & & 155d &  7h & 52m & 36&51s &
+		      \multicolumn{6}{c|}{} &\\
+	\end{tabular}
+	\caption{\label{tab:UniqueK4Time}The time to search %
+		for uniquely $K_r$-saturated graphs with at most $N$ vertices.}
+\end{table}
+
+
+
 \section{Example 2: Edge Reconstruction}
 
+\def\cR{\mathcal{R}}
+\begin{table}[hT]
+	\centering
+	\begin{tabular}[h]{c|r|r|r|r|r|r@{ }r@{ }r@{ }r@{ }r@{.}l}
+		\multicolumn{1}{c|}{$N$} 
+			&\multicolumn{1}{c|}{$g(N)$}
+			 %& \multicolumn{1}{c|}{$C_N$} 
+			 & \multicolumn{1}{c|}{$|\cR_N|$} 
+			 & \multicolumn{1}{c|}{Diff 1}
+			 & \multicolumn{1}{c|}{Diff 2}
+			 & \multicolumn{1}{c|}{Diff 3}
+			 & \multicolumn{6}{c}{CPU time}\\
+		\hline 
+%		  5 &  7 %&           10 
+%		  	&           6 & 0 & 0 & 0 & &&&& 0&001s \\
+%		  6 & 10 %&           56 
+%		  	&          39 & 0 & 0 & 0 & &&&& 0&011s \\
+%		  7 & 13 %&          468 
+%		  	&         332 & 0 & 0 & 2 & &&&& 0&10s \\
+		  8 & 16 %&         7123 
+		  	&        4804  
+			& 145 & 177 & 187 & &&&& 8&01s \\
+		  9 & 19 %&       194066 
+		  	&      111255 
+		  	& $6.19 \times 10^3$ & $5.72 \times 10^3$ & $4.77 \times 10^3$
+			 & &  &  &  5m & 33&85s \\
+		 10 & 22 %&      9743542
+		 	&     3051859 
+		 	& $7.13 \times 10^5$ & $6.00 \times 10^5$ & $4.21 \times 10^5$ 
+			 & &  &  6h & 33m & 40&59s \\
+		 11 & 26 %&    900969091 
+		 	&   308400777 
+		 	& $2.56 \times 10^8$ & $1.96 \times 10^8$ & $1.04 \times 10^8$ 
+			& &  32d & 19h & 50m & 51&37s \\
+		 12 & 29 %& 153620333545	
+		 	& 25615152888
+		 	& $4.86 \times 10^9$ & $4.25 \times 10^9$ & $1.96 \times 10^9$ 
+			& 8y & 362d &  0h & 49m  &  8&35s \\
+	\end{tabular}
+	\caption{\label{tab:ReconstructionTime}Comparing $|\cR_N|$ and %
+		the time to check $\cR_{N}$. Here, $g(n) = 1+\lfloor\log_2(N!)\rfloor$.}
+\end{table}
 
-\section{Example 3: Perfect Matchings}
+
+
+\section{Example 3: $p$-Extremal Graphs}
+
+This problem is investigated in \cite{pExtremal}.
+See \cite{DudekSchmitt} and \cite{HSWY} for background on this problem.
+
+\subsection{Perfect Matching Algorithms}
+
+\begin{algorithm}[h]
+	\caption{\label{alg:countpm}CountPM($G, P$)}
+	\begin{algorithmic}
+		\STATE
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[h]
+	\caption{\label{alg:is1Extendable}is1Extendable($H$)}
+	\begin{algorithmic}
+		\STATE
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[h]
+	\caption{\label{alg:maximalSupergraphs}maximalSupergraphs($H$)}
+	\begin{algorithmic}
+		\STATE
+	\end{algorithmic}
+\end{algorithm}
 
 
 
 
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{c|c|c|r@{ }r@{ }r@{.}l}
+		$p$ & $N_p$ & $c_p$
+%				& \multicolumn{1}{c|}{Depth}
+%				& \multicolumn{1}{p{1in}|}{Search Time (no pruning)} 
+				& \multicolumn{4}{c}{Total CPU Time} \\
+		\hline
+		 $5$ &  8 & 2     &   &    &   0&02s \\
+		 $6$ & 10 & 3     &   &    &   0&04s \\
+		 $7$ & 10 & 3    &   &    &   0&18s \\
+		 $8$ & 12 & 3     &   &    &   0&72s \\
+		 $9$ & 12 & 4    &   &    &   1&46s \\
+		$10$ & 12 & 4    &   &    &  5&95s \\
+%		\hline
+		$11$ & 14 & 3      &     &      & 43&29s \\
+		$12$ & 14 & 5     &     &      & 44&01s \\
+		$13$ & 14 & 3  &  &  6m & 39&80s \\
+		$14$ & 16 & 4  &  & 12m & 10&40s \\
+		$15$ & 16 & 6  &  & 12m & 42&72s \\
+	 	\multicolumn{5}{c}{}&
+	\end{tabular}	
+	\qquad
+	% TABLE IN HOURS.MHOURS
+	\begin{tabular}{c|c|c|r@{ }r@{ }r@{ }r@{ }r@{.}l}
+		$p$ & $N_p$ & $c_p$
+%				& \multicolumn{1}{c|}{Depth}
+%				& \multicolumn{1}{p{1in}|}{Search Time (no pruning)} 
+				& \multicolumn{4}{c}{Total CPU Time} \\
+		\hline
+		$16$ & 16 & 4 && &  2h & 07m & 58&60s \\
+		$17$ & 16 & 4 && &  6h & 46m & 07&72s \\
+		$18$ & 18 & 5 && & 11h & 45m & 01&95s \\
+		$19$ & 18 & 4 & &   2d & 17h & 12m & 31&85s \\
+		$20$ & 18 & 5 & &   4d & 05h & 28m & 11&79s \\
+		$21$ & 18 & 5 & &  13d & 17h & 29m & 12&45s \\ 
+		$22$ & 20 & 5 & &  42d & 20h & 40m & 30&41s \\
+		$23$ & 20 & 5 & & 118d & 07h & 38m & 36&84s \\
+		$24$ & 20 & 6 & & 209d & 10h & 09m & 54&98s \\
+		$25$ & 20 & 5 &  2y & 187d & 21h & 48m & 46&31s \\
+		$26$ & 20 & 5 &  7y &  75d & 13h & 55m & 10&27s \\
+		$27$ & 22 & 6 & 10y & 247d & 21h &  3m & 13&94s \\
+%		$28$ & 22 & 5 & \\ 
+%		$29$ & 22 & 5 & \\ 
+%		$30$ & 22 & 7 & \\ 
+%		$31$ & 22 & 5 & \\ 
+%		$32$ & 24 & 6 & \\ 
+	\end{tabular}
+	\caption{\label{tab:pmtiming}Time analysis of the search for varying $p$ values.}
+\end{table}
 
-\bibliographystyle{plain}
-\bibliography{bibliography.bib}
 
+\begin{thebibliography}{9}
+	\bibitem{DudekSchmitt} A. Dudek and J. Schmidt.
+		On extremal graphs with a constant number of 1-factors.
+		submitted. 2010.
+
+	\bibitem{HRnauty} S. G. Hartke and A. J. Radcliffe. 
+		Mckay’s canonical graph labeling algorithm. 
+		In {\it Communicating Mathematics}, 
+		volume 479 of {\it Contemporary Mathematics}, 99–111. 2009.
+		
+	\bibitem{HSWY} S. G. Hartke, D. Stolee, D. B. West, and M. Yancey.
+		On extremal graphs with a fixed number of perfect matchings.
+		in preparation. 2011.
+
+	\bibitem{McKayReconstruct} B. D. McKay. Small graphs are reconstructible. 
+		{\it Australas. J. Combin.}, 15:123– 126, 1997.
+
+	\bibitem{McKayGenerate} B. D. McKay, 
+		Isomorph-free exhaustive generation
+		{\it J. Algorithms}, 26(6):306-324. 1998.
+		
+	\bibitem{McKayNauty} B. D. McKay,
+		nauty user's guide (version 2.4)
+		Dept. Computer Science, Astral. Nat. Univ., 2006.
+	
+	\bibitem{IsomorphFreeGen} D. Stolee, 
+		Isomorph-free generation of 2-connected graphs with applications,
+		in preparation, 2011.
+		
+	\bibitem{pExtremal} D. Stolee,
+		Generating $p$-extremal graphs,
+		in preparation, 2011.
+		
+	\bibitem{TreeSearch} D. Stolee,
+		TreeSearch user guide,
+		available at 
+		\href{http://www.github.com/derrickstolee/TreeSearch/}{http://www.github.com/derrickstolee/TreeSearch/}
+		2011.
+\end{thebibliography}
 
 \end{document}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2007.11.14)  4 MAR 2011 12:13
+This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2007.11.14)  2 APR 2011 00:04
 entering extended mode
 \write18 enabled.
 **EarSearchUserGuide.tex
@@ -181,93 +181,193 @@ Package hyperref Info: Link coloring OFF on input line 3141.
 File: hpdftex.def 2007/02/27 v6.75t Hyperref driver for pdfTeX
 \Fld@listcount=\count110
 )
-No file EarSearchUserGuide.aux.
+(/usr/local/gwTeX/texmf.texlive/tex/latex/algorithms/algorithm.sty
+Package: algorithm 
+
+Document Style `algorithm' - floating environment
+(/usr/local/gwTeX/texmf.texlive/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\@float@every@algorithm=\toks20
+\c@algorithm=\count111
+)
+(/usr/local/gwTeX/texmf.texlive/tex/latex/algorithms/algorithmic.sty
+Package: algorithmic 2006/06/02
+
+Document Style `algorithmic' - environment
+(/usr/local/gwTeX/texmf.texlive/tex/latex/tools/calc.sty
+Package: calc 2005/08/06 v4.2 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count112
+\calc@Bcount=\count113
+\calc@Adimen=\dimen124
+\calc@Bdimen=\dimen125
+\calc@Askip=\skip45
+\calc@Bskip=\skip46
+LaTeX Info: Redefining \setlength on input line 75.
+LaTeX Info: Redefining \addtolength on input line 76.
+\calc@Ccount=\count114
+\calc@Cskip=\skip47
+)
+\c@ALC@line=\count115
+\c@ALC@rem=\count116
+\c@ALC@depth=\count117
+\ALC@tlm=\skip48
+\algorithmicindent=\skip49
+)
+(/usr/local/gwTeX/texmf.texlive/tex/latex/multirow/multirow.sty
+\bigstrutjot=\dimen126
+)
+(./EarSearchUserGuide.aux)
 \openout1 = `EarSearchUserGuide.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 28.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 29.
+
 (/usr/local/gwTeX/texmf.texlive/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 (/usr/local/gwTeX/texmf.texlive/tex/context/base/supp-pdf.tex
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count111
-\scratchdimen=\dimen124
+\scratchcounter=\count118
+\scratchdimen=\dimen127
 \scratchbox=\box57
-\nofMPsegments=\count112
-\nofMParguments=\count113
-\MPscratchCnt=\count114
-\MPscratchDim=\dimen125
-\MPnumerator=\count115
-\everyMPtoPDFconversion=\toks20
+\nofMPsegments=\count119
+\nofMParguments=\count120
+\MPscratchCnt=\count121
+\MPscratchDim=\dimen128
+\MPnumerator=\count122
+\everyMPtoPDFconversion=\toks21
 )
-Package hyperref Info: Link coloring OFF on input line 28.
+Package hyperref Info: Link coloring OFF on input line 29.
  (/usr/local/gwTeX/texmf.texlive/tex/latex/hyperref/nameref.sty
 Package: nameref 2006/12/27 v2.28 Cross-referencing by name of section
 
 (/usr/local/gwTeX/texmf.texlive/tex/latex/oberdiek/refcount.sty
 Package: refcount 2006/02/20 v3.0 Data extraction from references (HO)
 )
-\c@section@level=\count116
+\c@section@level=\count123
 )
-LaTeX Info: Redefining \ref on input line 28.
-LaTeX Info: Redefining \pageref on input line 28.
+LaTeX Info: Redefining \ref on input line 29.
+LaTeX Info: Redefining \pageref on input line 29.
+
+(./EarSearchUserGuide.out) (./EarSearchUserGuide.out)
 \@outlinefile=\write3
 \openout3 = `EarSearchUserGuide.out'.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 31.
+(Font)              <12> on input line 32.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 31.
+(Font)              <8> on input line 32.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 31.
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 31.
+(Font)              <6> on input line 32.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 32.
 
 (/usr/local/gwTeX/texmf.texlive/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 32.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 33.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 41.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 42.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 72.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 92.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 92.
 
-No file EarSearchUserGuide.bbl.
+Overfull \hbox (9.4946pt too wide) in paragraph at lines 92--118
+ [][] 
+ []
+
 [1
 
 {/usr/local/gwTeX/texmf.local/fonts/map/pdftex/updmap/pdftex.map}]
-(./EarSearchUserGuide.aux)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 209.
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
- ) 
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 209.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 209.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 214.
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
+put line 217.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 217.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[2]
+Missing character: There is no Õ in font ptmr7t!
+Missing character: There is no Ð in font ptmr7t!
+Missing character: There is no Ð in font ptmr7t!
+ [3pdfTeX warning (ext4): destination with the same identifier (name{ALC@rem.1}
+) has been already used, duplicate ignored
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.332 \end{document}
+                    pdfTeX warning (ext4): destination with the same identifier
+ (name{ALC@line.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.332 \end{document}
+                    ] [4pdfTeX warning (ext4): destination with the same identi
+fier (name{ALC@rem.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.332 \end{document}
+                    pdfTeX warning (ext4): destination with the same identifier
+ (name{ALC@line.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.332 \end{document}
+                    ] (./EarSearchUserGuide.aux) ) 
 Here is how much of TeX's memory you used:
- 3060 strings out of 94073
- 42968 string characters out of 1163504
- 2098009 words of memory out of 4549205
- 6330 multiletter control sequences out of 10000+50000
- 17290 words of font info for 39 fonts, out of 2000000 for 2000
+ 3420 strings out of 94073
+ 47776 string characters out of 1163504
+ 2102623 words of memory out of 4553819
+ 6640 multiletter control sequences out of 10000+50000
+ 23755 words of font info for 50 fonts, out of 2000000 for 2000
  645 hyphenation exceptions out of 5000
- 25i,6n,36p,222b,335s stack positions out of 5000i,500n,6000p,200000b,50000s
-{/usr/local/gwTeX/texmf.texlive/fonts/enc/dvips/base/8r.enc}</usr/local/gwTeX
-/texmf.texlive/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/gwTeX/texmf.texli
-ve/fonts/type1/urw/times/utmb8a.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1
-/urw/times/utmr8a.pfb>
-Output written on EarSearchUserGuide.pdf (1 page, 41366 bytes).
+ 25i,10n,39p,316b,418s stack positions out of 5000i,500n,6000p,200000b,50000s
+{/usr/local/gwTeX/texmf.texli
+ve/fonts/enc/dvips/base/8r.enc}</usr/local/gwTeX/texmf.texlive/fonts/type1/blue
+sky/cm/cmmi10.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmmi12
+.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmmi8.pfb></usr/loc
+al/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmr10.pfb></usr/local/gwTeX/texmf
+.texlive/fonts/type1/bluesky/cm/cmr8.pfb></usr/local/gwTeX/texmf.texlive/fonts/
+type1/bluesky/cm/cmsy10.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/urw/cou
+rier/ucrr8a.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/urw/times/utmb8a.pf
+b></usr/local/gwTeX/texmf.texlive/fonts/type1/urw/times/utmr8a.pfb></usr/local/
+gwTeX/texmf.texlive/fonts/type1/urw/times/utmri8a.pfb>
+Output written on EarSearchUserGuide.pdf (4 pages, 93305 bytes).
 PDF statistics:
- 39 PDF objects out of 1000 (max. 8388607)
- 11 named destinations out of 1000 (max. 131072)
- 17 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 140 PDF objects out of 1000 (max. 8388607)
+ 35 named destinations out of 1000 (max. 131072)
+ 97 words of extra memory for PDF output out of 10000 (max. 10000000)
 

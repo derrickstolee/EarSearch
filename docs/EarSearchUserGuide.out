@@ -3,7 +3,8 @@
 \BOOKMARK [1][-]{section.3}{Pruning}{}
 \BOOKMARK [1][-]{section.4}{Canonical Deletion}{}
 \BOOKMARK [1][-]{section.5}{Solutions}{}
-\BOOKMARK [1][-]{section.6}{Example 0: Enumerating All 2-Connected Graphs}{}
+\BOOKMARK [1][-]{section.6}{Example 0: 2-Connected Graphs}{}
 \BOOKMARK [1][-]{section.7}{Example 1: Unique Saturation}{}
 \BOOKMARK [1][-]{section.8}{Example 2: Edge Reconstruction}{}
-\BOOKMARK [1][-]{section.9}{Example 3: Perfect Matchings}{}
+\BOOKMARK [1][-]{section.9}{Example 3: p-Extremal Graphs}{}
+\BOOKMARK [2][-]{subsection.9.1}{Perfect Matching Algorithms}{section.9}

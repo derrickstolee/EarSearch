@@ -320,8 +320,7 @@ void GraphData::computeInvariant()
 			if ( pair_used[i][j] > 0 )
 			{
 				(this->invariant) += pow(j, i * pair_used[i][j]);
-				(this->invariant) += pow(this->n * i + j,
-						((double) pair_used[i][j]) * 0.125);
+				(this->invariant) += pow(this->n * i + j, ((double) pair_used[i][j]) * 0.125);
 			}
 		}
 
@@ -376,8 +375,7 @@ void GraphData::computeCanonStrings()
 				this->g->e[rev_edge] = i;
 
 				/* find the place for canon_str */
-				if ( edge_num == 0 || strcmp(this->canon_strings[edge_num - 1],
-						canon_str) <= 0 )
+				if ( edge_num == 0 || strcmp(this->canon_strings[edge_num - 1], canon_str) <= 0 )
 				{
 					/* insert at the end */
 					this->canon_strings[edge_num] = canon_str;
@@ -391,8 +389,7 @@ void GraphData::computeCanonStrings()
 
 					while ( cur_left < cur_right )
 					{
-						int compare = strcmp(this->canon_strings[cur_pos],
-								canon_str);
+						int compare = strcmp(this->canon_strings[cur_pos], canon_str);
 
 						if ( compare > 0 )
 						{
@@ -430,8 +427,7 @@ void GraphData::computeCanonStrings()
 
 	if ( edge_num < this->e )
 	{
-		printf("--Only checked %d edges, when should have checked %d...\n",
-				edge_num, this->e);
+		printf("--Only checked %d edges, when should have checked %d...\n", edge_num, this->e);
 	}
 
 	/* Note: the strings are sorted by insertion sort, as we go along */
@@ -469,8 +465,7 @@ EarNode::EarNode() :
 
 	this->num_child_data = 0;
 	this->size_child_data = 1000;
-	this->child_data = (GraphData**) malloc(this->size_child_data
-			* sizeof(GraphData*));
+	this->child_data = (GraphData**) malloc(this->size_child_data * sizeof(GraphData*));
 }
 
 /**
@@ -503,8 +498,7 @@ EarNode::EarNode(LONG_T label) :
 	this->violatingPairs = new TreeSet();
 	this->num_child_data = 0;
 	this->size_child_data = 100;
-	this->child_data = (GraphData**) malloc(this->size_child_data
-			* sizeof(GraphData*));
+	this->child_data = (GraphData**) malloc(this->size_child_data * sizeof(GraphData*));
 }
 
 /**
@@ -626,8 +620,7 @@ void EarNode::addGraphData(sparsegraph* g)
 	if ( this->num_child_data == this->size_child_data )
 	{
 		(this->size_child_data) += 100;
-		this->child_data = (GraphData**) realloc(this->child_data,
-				this->size_child_data * sizeof(GraphData*));
+		this->child_data = (GraphData**) realloc(this->child_data, this->size_child_data * sizeof(GraphData*));
 	}
 
 	this->child_data[this->num_child_data] = new GraphData(g);
@@ -652,8 +645,7 @@ void EarNode::initAdjMatrix()
 
 	for ( int i = 0; i < this->graph->nv; i++ )
 	{
-		this->adj_matrix_data[i] = (int*) malloc((this->graph->nv + 1)
-				* sizeof(int));
+		this->adj_matrix_data[i] = (int*) malloc((this->graph->nv + 1) * sizeof(int));
 		bzero(this->adj_matrix_data[i], (this->graph->nv + 1) * sizeof(int));
 	}
 
@@ -682,8 +674,7 @@ void EarNode::initAdjMatrix()
  * Given a sparsegraph, create a new one with a new ear
  * 	of the given length between the two vertices.
  */
-sparsegraph* EarSearchManager::augment(sparsegraph* graph, int length, int v1,
-		int v2)
+sparsegraph* EarSearchManager::augment(sparsegraph* graph, int length, int v1, int v2)
 {
 
 	return 0;
@@ -696,14 +687,16 @@ sparsegraph* EarSearchManager::augment(sparsegraph* graph, int length, int v1,
  * @param checker the algorithm for checking solutions.
  * @param deleter the algorithm for checking canonical deletions.
  */
-EarSearchManager::EarSearchManager(int max_n, PruningAlgorithm* algorithm,
-		SolutionChecker* checker, EarDeletionAlgorithm* deleter) :
+EarSearchManager::EarSearchManager(int max_n, PruningAlgorithm* algorithm, SolutionChecker* checker,
+		EarDeletionAlgorithm* deleter) :
 	SearchManager()
 {
 	this->max_n = max_n;
 	this->pruner = algorithm;
 	this->checker = checker;
 	this->deleter = deleter;
+
+	this->require_all_siblings = checker->require_all_siblings;
 
 	if ( this->stack.empty() == false )
 	{
@@ -802,130 +795,11 @@ LONG_T EarSearchManager::pushNext()
 
 		/* if length == 0 and these are adjacent, we must continue */
 		/* Also, if this is a "violating pair" then we must continue */
-	} while ( (length == 0 && areAdjacent(g, orb1, orb2))
-			|| parent->violatingPairs->contains(parent->orbitList[orbit][0])
-					== 1 );
+	} while ( (length == 0 && areAdjacent(g, orb1, orb2)) || parent->violatingPairs->contains(
+			parent->orbitList[orbit][0]) == 1 );
 
-	//	printf("--augmenting length %d onto orbit %d, %d\n", length,
-	//			parent->pairOrbits1[orbit], parent->pairOrbits2[orbit]);
-
-	return this->pushTo(getLabel(length, orbit));
-}
-
-/**
- * pushTo -- deepen the search to the specified child
- * 	of the current node.
- *
- * @param child the specified label for the new node
- * @return the label for the new node. -1 if none, or failed.
- */
-LONG_T EarSearchManager::pushTo(LONG_T child)
-{
-	int param_length, param_orbit;
-
-	getInfoFromLabel(child, param_length, param_orbit);
-
-	if ( this->stack.size() == 0 )
-	{
-		/* at the BASE level */
-		EarNode* ear_root = (EarNode*) this->root;
-
-		this->root->curChild = child;
-
-		if ( root->curChild > this->max_n )
-		{
-			return -1;
-		}
-		else if ( this->root->curChild < 3 )
-		{
-			this->root->curChild = 3;
-		}
-
-		int cycle_l = (int) this->root->curChild;
-		//		printf("--[pushNext] \t\t MAKING A CYCLE OF LENGTH %d.\n", cycle_l);
-
-		EarNode* node = new EarNode(cycle_l);
-		node->max_verts = ear_root->max_verts;
-
-		/* Need to make a cycle! */
-		node->graph = (sparsegraph*) malloc(sizeof(sparsegraph));
-
-		/* g for short */
-		sparsegraph* g = node->graph;
-		SG_INIT((*g));
-		g->nv = cycle_l;
-		g->nde = 2 * cycle_l;
-
-		/* THESE ARE NOT BEING FREED? */
-		g->v = (int*) malloc(this->max_n * sizeof(int));
-		g->d = (int*) malloc(this->max_n * sizeof(int));
-		g->e = (int*) malloc(this->max_n * this->max_n * sizeof(int));
-
-		bzero(g->v, this->max_n * sizeof(int));
-		bzero(g->d, this->max_n * sizeof(int));
-		bzero(g->e, this->max_n * this->max_n * sizeof(int));
-
-		for ( int i = 0; i < ear_root->max_verts; i++ )
-		{
-			g->v[i] = i * this->max_n;
-
-			for ( int j = 0; j < this->max_n; j++ )
-			{
-				g->e[g->v[i] + j] = -1;
-			}
-
-			if ( i < cycle_l )
-			{
-				g->d[i] = 2;
-				g->e[g->v[i]] = (i + 1) % (cycle_l);
-				g->e[g->v[i] + 1] = (i + cycle_l - 1) % cycle_l;
-			}
-			else
-			{
-				g->d[i] = 0;
-			}
-		}
-
-		/* the pair orbits are easy */
-		node->canonicalLabels = (int*) malloc(2 * g->nv * sizeof(int));
-
-		node->orbitList = (int**) malloc(g->nv * g->nv * sizeof(int*));
-		bzero(node->orbitList, g->nv * g->nv * sizeof(int*));
-
-		node->numPairOrbits = getCanonicalLabelsAndPairOrbits(g,
-				node->canonicalLabels, node->orbitList);
-
-		/* initialize the ear data... */
-		/* n^2 / 2 ears at most */
-		/* currently, the ears always end at 0, because they will always split there */
-		node->num_ears = 1;
-		node->ear_list = 0;
-		node->ear_length = cycle_l - 1; /* length does not include endpoints */
-		node->ear = 0; /* but the list does */
-
-		this->stack.push_back(node);
-		//		this->writeJob(stdout);
-
-		return cycle_l;
-	}
-
-	EarNode* parent = (EarNode*) this->stack.back();
-
-	sparsegraph* g = parent->graph;
-
-	int length, orbit;
-
-	parent->curChild = child;
-
-	int orb1, orb2;
-
-	orbit = param_orbit;
-	length = param_length;
-	indexToPair(g->nv, parent->orbitList[orbit][0], orb1, orb2);
-
-	if ( (length == 0 && areAdjacent(g, orb1, orb2))
-			|| parent->violatingPairs->contains(parent->orbitList[orbit][0])
-					== 1 )
+	if ( (length == 0 && areAdjacent(g, orb1, orb2)) || parent->violatingPairs->contains(parent->orbitList[orbit][0])
+			== 1 )
 	{
 		/* this is a problem! */
 		/* we can't add a multiedge */
@@ -1077,8 +951,7 @@ LONG_T EarSearchManager::pushTo(LONG_T child)
 
 				inner_index++;
 
-				if ( inner_index > 1 && parent->ear_list[i][j] == v1 && j > 0
-						&& parent->ear_list[i][j + 1] >= 0 )
+				if ( inner_index > 1 && parent->ear_list[i][j] == v1 && j > 0 && parent->ear_list[i][j + 1] >= 0 )
 				{
 					/* if an internal vertex is also an endpoint of the new ear */
 					/* split the ear here! */
@@ -1092,9 +965,7 @@ LONG_T EarSearchManager::pushTo(LONG_T child)
 					node->ear_list[ear_index][inner_index] = v1;
 					inner_index++;
 				}
-				else if ( inner_index > 1 && j > 0
-						&& parent->ear_list[i][j + 1] >= 0
-						&& parent->ear_list[i][j] == v2 )
+				else if ( inner_index > 1 && j > 0 && parent->ear_list[i][j + 1] >= 0 && parent->ear_list[i][j] == v2 )
 				{
 					/* if an internal vertex is also an endpoint of the new ear */
 					/* split the ear here! */
@@ -1120,8 +991,7 @@ LONG_T EarSearchManager::pushTo(LONG_T child)
 
 		if ( ear_index != node->num_ears )
 		{
-			printf(
-					"--[pushNext] ear_index = %d != %d = node->num_ears w/ %d v1(%d) splits and %d v2(%d) splits.\n",
+			printf("--[pushNext] ear_index = %d != %d = node->num_ears w/ %d v1(%d) splits and %d v2(%d) splits.\n",
 					ear_index, node->num_ears, v1splits, v1, v2splits, v2);
 
 			exit(1);
@@ -1135,8 +1005,351 @@ LONG_T EarSearchManager::pushTo(LONG_T child)
 	node->orbitList = (int**) malloc(g->nv * g->nv * sizeof(int*));
 	bzero(node->orbitList, g->nv * g->nv * sizeof(int*));
 
-	node->numPairOrbits = getCanonicalLabelsAndPairOrbits(g,
-			node->canonicalLabels, node->orbitList);
+	node->numPairOrbits = getCanonicalLabelsAndPairOrbits(g, node->canonicalLabels, node->orbitList);
+
+	this->stack.push_back(node);
+
+	return node->label;
+}
+
+/**
+ * pushTo -- deepen the search to the specified child
+ * 	of the current node.
+ *
+ * @param child the specified label for the new node
+ * @return the label for the new node. -1 if none, or failed.
+ */
+LONG_T EarSearchManager::pushTo(LONG_T child)
+{
+	int param_length, param_orbit;
+
+	getInfoFromLabel(child, param_length, param_orbit);
+
+	if ( this->stack.size() == 0 )
+	{
+		/* at the BASE level */
+		EarNode* ear_root = (EarNode*) this->root;
+
+		this->root->curChild = child;
+
+		if ( root->curChild > this->max_n )
+		{
+			return -1;
+		}
+		else if ( this->root->curChild < 3 )
+		{
+			this->root->curChild = 3;
+		}
+
+		int cycle_l = (int) this->root->curChild;
+		//		printf("--[pushNext] \t\t MAKING A CYCLE OF LENGTH %d.\n", cycle_l);
+
+		EarNode* node = new EarNode(cycle_l);
+		node->max_verts = ear_root->max_verts;
+
+		/* Need to make a cycle! */
+		node->graph = (sparsegraph*) malloc(sizeof(sparsegraph));
+
+		/* g for short */
+		sparsegraph* g = node->graph;
+		SG_INIT((*g));
+		g->nv = cycle_l;
+		g->nde = 2 * cycle_l;
+
+		/* THESE ARE NOT BEING FREED? */
+		g->v = (int*) malloc(this->max_n * sizeof(int));
+		g->d = (int*) malloc(this->max_n * sizeof(int));
+		g->e = (int*) malloc(this->max_n * this->max_n * sizeof(int));
+
+		bzero(g->v, this->max_n * sizeof(int));
+		bzero(g->d, this->max_n * sizeof(int));
+		bzero(g->e, this->max_n * this->max_n * sizeof(int));
+
+		for ( int i = 0; i < ear_root->max_verts; i++ )
+		{
+			g->v[i] = i * this->max_n;
+
+			for ( int j = 0; j < this->max_n; j++ )
+			{
+				g->e[g->v[i] + j] = -1;
+			}
+
+			if ( i < cycle_l )
+			{
+				g->d[i] = 2;
+				g->e[g->v[i]] = (i + 1) % (cycle_l);
+				g->e[g->v[i] + 1] = (i + cycle_l - 1) % cycle_l;
+			}
+			else
+			{
+				g->d[i] = 0;
+			}
+		}
+
+		/* the pair orbits are easy */
+		node->canonicalLabels = (int*) malloc(2 * g->nv * sizeof(int));
+
+		node->orbitList = (int**) malloc(g->nv * g->nv * sizeof(int*));
+		bzero(node->orbitList, g->nv * g->nv * sizeof(int*));
+
+		node->numPairOrbits = getCanonicalLabelsAndPairOrbits(g, node->canonicalLabels, node->orbitList);
+
+		/* initialize the ear data... */
+		/* n^2 / 2 ears at most */
+		/* currently, the ears always end at 0, because they will always split there */
+		node->num_ears = 1;
+		node->ear_list = 0;
+		node->ear_length = cycle_l - 1; /* length does not include endpoints */
+		node->ear = 0; /* but the list does */
+
+		this->stack.push_back(node);
+		//		this->writeJob(stdout);
+
+		return cycle_l;
+	}
+
+	if ( this->require_all_siblings )
+	{
+		/* get all previous siblings on the way to the current child */
+		LONG_T label = this->pushNext();
+		while (label >= 0 && label != child )
+		{
+			/* go through the actions for this previous sibling */
+			if ( this->prune() == 0 )
+			{
+				this->isSolution();
+			}
+
+			this->pop();
+
+			label = this->pushNext();
+		}
+
+		return label;
+	}
+
+	EarNode* parent = (EarNode*) this->stack.back();
+
+	sparsegraph* g = parent->graph;
+
+	int length, orbit;
+
+	parent->curChild = child;
+
+	int orb1, orb2;
+
+	orbit = param_orbit;
+	length = param_length;
+	indexToPair(g->nv, parent->orbitList[orbit][0], orb1, orb2);
+
+	if ( (length == 0 && areAdjacent(g, orb1, orb2)) || parent->violatingPairs->contains(parent->orbitList[orbit][0])
+			== 1 )
+	{
+		/* this is a problem! */
+		/* we can't add a multiedge */
+		/* OR this pair is a violating pair! */
+		return -1;
+	}
+
+	LONG_T label = parent->curChild = getLabel(length, orbit);
+
+	const int old_n = g->nv;
+	g->nv = old_n + length;
+	g->nde = g->nde + 2 * (length + 1);
+
+	const int v1 = orb1;
+	const int v2 = orb2;
+
+	const int d1 = g->d[v1];
+	const int d2 = g->d[v2];
+
+	g->d[v1] = d1 + 1;
+	g->d[v2] = d2 + 1;
+
+	if ( length > 0 )
+	{
+		g->e[g->v[v1] + d1] = old_n;
+		g->e[g->v[v2] + d2] = old_n + length - 1;
+
+		for ( int i = 0; i < length; i++ )
+		{
+			g->d[old_n + i] = 2;
+
+			if ( i == 0 )
+			{
+				g->e[g->v[old_n + i]] = v1;
+			}
+			else
+			{
+				g->e[g->v[old_n + i]] = old_n + i - 1;
+			}
+
+			if ( i == length - 1 )
+			{
+				g->e[g->v[old_n + i] + 1] = v2;
+			}
+			else
+			{
+				g->e[g->v[old_n + i] + 1] = old_n + i + 1;
+			}
+		}
+	}
+	else
+	{
+		/* just adding an edge */
+		g->e[g->v[v1] + d1] = v2;
+		g->e[g->v[v2] + d2] = v1;
+	}
+
+	/* MAKE A NEW NODE! */
+	EarNode* node = new EarNode(label);
+	node->max_verts = parent->max_verts;
+	node->graph = g;
+
+	/* EAR INFORMATION */
+	node->ear_length = length;
+	node->ear = (char*) malloc(length + 4);
+	node->ear[0] = v1;
+
+	for ( int i = 0; i < length; i++ )
+	{
+		node->ear[i + 1] = old_n + i;
+	}
+
+	node->ear[length + 1] = v2;
+	node->ear[length + 2] = -1;
+	node->ear[length + 3] = -1;
+
+	/* EAR LIST */
+	if ( this->stack.size() == 1 )
+	{
+		/* correction for when starting with a cycle */
+		node->num_ears = 3;
+		node->ear_list = (char**) malloc(3 * sizeof(char*));
+
+		node->ear_list[0] = (char*) malloc(old_n + 1);
+		node->ear_list[1] = (char*) malloc(old_n + 1);
+		node->ear_list[2] = node->ear;
+
+		int new_length = old_n;
+
+		int last_ear_0 = v2;
+		int last_ear_1 = v1;
+
+		if ( v2 < v1 )
+		{
+			last_ear_0 = v2 + new_length;
+		}
+		else
+		{
+			last_ear_1 = v1 + new_length;
+		}
+
+		int eindex = 0;
+		for ( int i = v1; i <= last_ear_0; i++ )
+		{
+			node->ear_list[0][eindex] = i % old_n;
+			eindex++;
+		}
+		node->ear_list[0][eindex] = -1;
+
+		eindex = 0;
+		for ( int i = v2; i <= last_ear_1; i++ )
+		{
+			node->ear_list[1][eindex] = i % old_n;
+			eindex++;
+		}
+		node->ear_list[1][eindex] = -1;
+	}
+	else
+	{
+		/* we have a "nice" ear decomposition already */
+		node->num_ears = parent->num_ears + 1; /* add one for the new ear */
+
+		if ( d1 == 2 )
+		{
+			/* a new ear on this endpoint! */
+			node->num_ears = node->num_ears + 1;
+		}
+
+		if ( d2 == 2 )
+		{
+			/* a new ear on this endpoint! */
+			node->num_ears = node->num_ears + 1;
+		}
+
+		node->ear_list = (char**) malloc(node->num_ears * sizeof(char*));
+
+		int ear_index = 0;
+		int v1splits = 0;
+		int v2splits = 0;
+
+		for ( int i = 0; i < parent->num_ears; i++ )
+		{
+			node->ear_list[ear_index] = (char*) malloc(g->nv);
+			int inner_index = 0;
+
+			for ( int j = 0; parent->ear_list[i][j] >= 0; j++ )
+			{
+				node->ear_list[ear_index][inner_index] = parent->ear_list[i][j];
+
+				inner_index++;
+
+				if ( inner_index > 1 && parent->ear_list[i][j] == v1 && j > 0 && parent->ear_list[i][j + 1] >= 0 )
+				{
+					/* if an internal vertex is also an endpoint of the new ear */
+					/* split the ear here! */
+					node->ear_list[ear_index][inner_index] = -1;
+					ear_index++;
+
+					v1splits++;
+
+					node->ear_list[ear_index] = (char*) malloc(g->nv);
+					inner_index = 0;
+					node->ear_list[ear_index][inner_index] = v1;
+					inner_index++;
+				}
+				else if ( inner_index > 1 && j > 0 && parent->ear_list[i][j + 1] >= 0 && parent->ear_list[i][j] == v2 )
+				{
+					/* if an internal vertex is also an endpoint of the new ear */
+					/* split the ear here! */
+					node->ear_list[ear_index][inner_index] = -1;
+					ear_index++;
+
+					v2splits++;
+
+					node->ear_list[ear_index] = (char*) malloc(g->nv);
+					inner_index = 0;
+
+					node->ear_list[ear_index][inner_index] = v2;
+					inner_index++;
+				}
+			}
+
+			node->ear_list[ear_index][inner_index] = -1;
+			ear_index++;
+		}
+
+		node->ear_list[ear_index] = node->ear;
+		ear_index++;
+
+		if ( ear_index != node->num_ears )
+		{
+			printf("--[pushNext] ear_index = %d != %d = node->num_ears w/ %d v1(%d) splits and %d v2(%d) splits.\n",
+					ear_index, node->num_ears, v1splits, v1, v2splits, v2);
+
+			exit(1);
+		}
+	}
+
+	/* CANONICAL INFORMATION */
+	node->canonicalLabels = (int*) malloc(2 * g->nv * sizeof(int));
+	bzero(node->canonicalLabels, 2 * g->nv * sizeof(int));
+
+	node->orbitList = (int**) malloc(g->nv * g->nv * sizeof(int*));
+	bzero(node->orbitList, g->nv * g->nv * sizeof(int*));
+
+	node->numPairOrbits = getCanonicalLabelsAndPairOrbits(g, node->canonicalLabels, node->orbitList);
 
 	this->stack.push_back(node);
 
@@ -1236,8 +1449,7 @@ int EarSearchManager::prune()
 		if ( canon_ear < 0 )
 		{
 			/* deleter failed! */
-			printf(
-					"--[EarSearchManager] The deleter gave a negative orbit...\n");
+			printf("--[EarSearchManager] The deleter gave a negative orbit...\n");
 
 			if ( added_child_data )
 			{
@@ -1271,8 +1483,7 @@ int EarSearchManager::prune()
 		}
 
 		/* get the pair index for the ear that was added */
-		int epair = pairToIndex(top->graph->nv, top->ear[0],
-				top->ear[top->ear_length + 1]);
+		int epair = pairToIndex(top->graph->nv, top->ear[0], top->ear[top->ear_length + 1]);
 
 		/* get the pair index for the orbit which was selected as canonical */
 		int opair = pairToIndex(top->graph->nv, orb1, orb2);
@@ -1346,8 +1557,7 @@ int EarSearchManager::isSolution()
 	EarNode* parent = (EarNode*) this->stack.back();
 	this->stack.push_back(top);
 
-	char* solution_data = this->checker->isSolution(parent, top,
-			this->stack.size());
+	char* solution_data = this->checker->isSolution(parent, top, this->stack.size());
 
 	if ( solution_data == 0 )
 	{
