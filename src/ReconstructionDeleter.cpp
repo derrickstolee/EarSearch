@@ -540,12 +540,10 @@ int ReconstructionDeleter::getCanonical(EarNode* parent, EarNode* child)
 							if ( strcmp(canon_string_e1, canon_string_e2) <= 0 )
 							{
 								strcpy(canon_string, canon_string_e1);
-								strcat(canon_string, canon_string_e2);
 							}
 							else
 							{
 								strcpy(canon_string, canon_string_e2);
-								strcat(canon_string, canon_string_e1);
 							}
 
 							free(canon_string_e1);
@@ -560,20 +558,20 @@ int ReconstructionDeleter::getCanonical(EarNode* parent, EarNode* child)
 							best_string = canon_string;
 							best_ear_index = ear_index;
 						}
-						else if ( strcmp(best_string, canon_string_e1) > 0 )
+						else if ( strcmp(best_string, canon_string) > 0 )
 						{
 							char* temp_string = best_string;
-							best_string = canon_string_e1;
+							best_string = canon_string;
 							best_ear_index = ear_index;
 
 							/* cleanup */
 							free(temp_string);
-							temp_string = canon_string_e1 = 0;
+							temp_string = canon_string = 0;
 						}
 						else
 						{
-							free( canon_string_e1);
-							canon_string_e1 = 0;
+							free(canon_string);
+							canon_string = 0;
 						}
 					}
 

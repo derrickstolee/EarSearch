@@ -1,10 +1,16 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}
 \BOOKMARK [1][-]{section.2}{Data Management}{}
+\BOOKMARK [2][-]{subsection.2.1}{Graphs}{section.2}
+\BOOKMARK [2][-]{subsection.2.2}{Augmentations and Labels}{section.2}
+\BOOKMARK [2][-]{subsection.2.3}{EarNode}{section.2}
 \BOOKMARK [1][-]{section.3}{Pruning}{}
 \BOOKMARK [1][-]{section.4}{Canonical Deletion}{}
 \BOOKMARK [1][-]{section.5}{Solutions}{}
 \BOOKMARK [1][-]{section.6}{Example 0: 2-Connected Graphs}{}
 \BOOKMARK [1][-]{section.7}{Example 1: Unique Saturation}{}
+\BOOKMARK [2][-]{subsection.7.1}{Application-Specific Data}{section.7}
 \BOOKMARK [1][-]{section.8}{Example 2: Edge Reconstruction}{}
+\BOOKMARK [2][-]{subsection.8.1}{Application-Specific Data}{section.8}
 \BOOKMARK [1][-]{section.9}{Example 3: p-Extremal Graphs}{}
-\BOOKMARK [2][-]{subsection.9.1}{Perfect Matching Algorithms}{section.9}
+\BOOKMARK [2][-]{subsection.9.1}{Application-Specific Data}{section.9}
+\BOOKMARK [2][-]{subsection.9.2}{Perfect Matching Algorithms}{section.9}
