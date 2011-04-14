@@ -173,38 +173,137 @@ The method \texttt{writeStatisticsData()}
 
 \section{Example 0: 2-Connected Graphs}
 
+To enumerate all 2-connected graphs, the interfaces were 
+	implemented to only prune by number of vertices
+	and possibly by number of edges.
+The search space is defined by three inputs: $N, e_{\min}$, and $e_{\max}$.
+These implementations are give by the following classes:
 
+\begin{itemize}
+	\item \texttt{EnumeratePruner} will prune a graph if it has more than $N$ vertices
+		or more than $e_{\max}$ edges.
+		Also, if $e(G) + (N-n(G)+1) > e_{\max}$, it will prune since
+			we cannot add the remaining $N-n(G)$ edges without 
+			surpassing $e_{\max}$ edges.
+		
+	\item \texttt{EnumerateDeleter} implements the default deletion algorithm:
+			over all ears $e$ in $G$ so that $G-e$ is 2-connected,
+			find one of minimum length, then use the canonical labels
+			to select the canonical ear.
+			
+	\item \texttt{EnumerateChecker} detects ``solutions" as any graph
+		with exactly $N$ vertices and between $e_{\min}$ and $e_{\max}$ edges.
+\end{itemize}
 
 
 \section{Example 1: Unique Saturation}
 
+The input consists of two numbers $r$ and $N$, 
+	and we are searching for uniquely $K_r$-saturated graphs of order $N$.
+The unique saturation problem utilizes the deletion algorithm
+	in \texttt{EnumerateDeleter}, but adds some data to \texttt{EarNode}
+	in order to track the constraints.
+The \texttt{SaturationAlgorithm} class implements both the \texttt{PruningAlgorithm}
+	and \texttt{SolutionChecker} interfaces.
+	
+{\bf Note:} The \texttt{SaturationAlgorithm} class is implemented 
+	only for $r \in \{4,5,6\}$ in order to use compiler optimizations for
+	the nested loop structure.
+
 \subsection{Application-Specific Data}
 
+The following fields were added to \texttt{EarNode} 
+	for tracking constraints during the search.
+Most information is tracked in \texttt{adj\_matrix\_data},
+	which stores information as an adjacency matrix.
+The others are boolean flags which mark
+	different properties of the current graph.
+These flags are set during the \texttt{checkPrune} method,
+	and are accessed by the \texttt{isSolution} method.
+
 \begin{itemize}
-	\item adj\_matrix\_data -- Data on the (directed) edges.
+	\item \texttt{adj\_matrix\_data} -- Data on the (directed) edges.
 		For unique saturation, this gives -1 for edges, and 
 			for non-edges counts the number of copies of $H$
 			given by adding that edge.
 		Values are in $\{0,1,2\}$, since when $2$ is 
 			listed, then there are too many copies of $H$.
 
-	\item any\_adj\_zero -- A boolean flag: are any of the cells in adj\_matrix\_data zero?
+	\item \texttt{any\_adj\_zero} -- A boolean flag: are any of the cells in adj\_matrix\_data zero?
 		
-
-	\item any\_adj\_two -- A boolean flag:  are any of the cells in adj\_matrix\_data at least two?
+	\item \texttt{any\_adj\_two} -- A boolean flag:  are any of the cells in adj\_matrix\_data at least two?
 	
-	\item dom\_vert -- A boolean flag: is there a dominating vertex?
+	\item \texttt{dom\_vert} -- A boolean flag: is there a dominating vertex?
 
-	\item copy\_of\_H -- A boolean flag: is there a copy of H?
+	\item \texttt{copy\_of\_H} -- A boolean flag: is there a copy of H?
 
 \end{itemize}
 
 
-
 \section{Example 2: Edge Reconstruction}
+
+The Edge Reconstruction application takes an integer $N$
+	and searches over all 2-connected graphs of order up to $N$
+	and up to $1+ \log_2 N!$ edges.
+The deletion is built to make graphs with the same deck 
+	be siblings.
+Then, all siblings which are not detectably edge reconstructible
+	are checked to have different edge decks.
+	
+The following three classes implement the interfaces:
+
+\begin{itemize}
+	\item \texttt{ReconstructionPruner} implements the \texttt{PruningAlgorithm}
+		interface
+		and prunes any graph with more than $N$ vertices or
+		more than $1+ \log_2 N!$ edges.
+		
+	\item \texttt{ReconstructionDeleter} implements the \texttt{EarDeletionAlgorithm}
+		interface
+		and performs two different deletions:
+		
+		\begin{enumerate}
+			\item If the graph is detectably edge reconstructible, 
+				the deletion can be application-ignorant and utilizes
+				the standard deletion algorithm from \texttt{EnumerateDeleter}.
+				
+			\item If the graph is NOT detectably edge reconstructible,
+				the canonical ear is selected by using only the edge deck.
+				Further, if the deletion is canonical, the graph is stored 
+					in the parent \texttt{EarNode} for later comparison of edge decks.
+				The \texttt{GraphData} class was implemented specifically for
+					storing these children within the parent \texttt{EarNode}.
+		\end{enumerate}	
+		
+	\item \texttt{ReconstructionChecker} implements the \texttt{SolutionChecker}
+		interface and compares the current graph's edge deck against 
+		all previous siblings.  This is done using three levels of comparison,
+			which are implemented in the \texttt{GraphData} class. 
+			
+\end{itemize}
 
 \subsection{Application-Specific Data}
 
+The \texttt{GraphData} class stores all information for a child graph.
+It implements three levels of comparison, which 
+	are checked in order within the \texttt{compare} method.
+
+	\begin{enumerate}
+		\item \texttt{computeDegSeq} computes and stores the standard degree sequence for the
+			current graph.
+			
+		\item \texttt{computeInvariant} calculates and stores  a more complicated function 
+			based on the degree sequence and the degrees of the neighborhood for 
+			each vertex.
+			
+		\item \texttt{computeCanonStrings} computes canonical strings for every edge-deleted
+			subgraph and sorts the list. These are then compared, card-for-card.
+	\end{enumerate}
+	
+In order to store these \texttt{GraphData} objects, 
+	the following members were added to the \texttt{EarNode}
+	class:
+	
 \begin{itemize}
 	
 	\item child\_data -- the GraphData objects for immediate children, used for pairwise comparison.
@@ -214,51 +313,175 @@ The method \texttt{writeStatisticsData()}
 \end{itemize}
 
 
-
-
 \section{Example 3: $p$-Extremal Graphs}
 
-This problem is investigated in \cite{pExtremal}.
+This problem is investigated in \cite{pExtremal}
+	and is the most involved of all applications.
 See \cite{DudekSchmitt} and \cite{HSWY} for background on this problem.
+The input is given as $P_{\min}$, $P_{\max}$, $C$, and $N$.
+The search is for elementary graphs with $p$ perfect matchings
+	(for $P_{\min} \leq p \leq P_{\max}$)
+	with excess at least $C$ and at most $N$ vertices.
+The search actually runs over 1-extendable and almost 1-extendable graphs,
+	which are the graphs reachable by the ear augmentations.
+A second stage adds forbidden edges to maximize excess
+	without increasing the number of perfect matchings.
+	
+The following classes implement the EarSearch interfaces:
+
+\begin{itemize}
+	\item \texttt{MatchingPruner} implements the 
+		\texttt{PruningAlgorithm} interface.
+		Graphs are pruned for three reasons:
+		
+		\begin{enumerate}
+			\item There are an odd number of vertices.
+				By the Lov\'asz Two Ear Theorem, we know 
+					that every ear augmentation 
+					has an even number of internal vertices.
+					
+			\item There are more than $P_{\max}$ perfect matchings.
+			
+			\item The parent graph was not 1-extendable, and neither is the current graph.
+				By the Lov\'asz Two Ear Theorem, we can always go from 1-extendable
+				to 1-extendable using at most two ear augmentations.
+				
+			\item Let $c$ be the maximum excess of an elementary supergraph
+				of the current graph, which is of order $n$,
+				and let $p$ be the current number of perfect matchings.
+				If $c+2(P_{\max}-p)-\frac{1}{4}(n'-n)(n-2) < C$
+				for all $n \leq n' \leq N$, then prune.
+				Otherwise, maximize the $n'$ so that 
+					the inequality 
+					$c+2(P_{\max}-p)-\frac{1}{4}(n'-n)(n-2) \geq C$ holds.
+				That value of $n'$ is then used to bound the 
+					length of future ear augmentations,
+					since no graph reachable from the current graph
+					can have excess at least $C$ and more than $n'$ vertices.
+		\end{enumerate}
+		
+		In addition to pruning, the pruning algorithm
+			also performs the on-line algorithm
+			for updating the list of barriers by using the current ear 
+			augmentation.
+		
+	\item \texttt{MatchingChecker} implements the
+		\texttt{SolutionChecker} interface.
+		Given a 1-extendable graph with between $P_{\min}$ and $P_{\max}$
+			perfect matchings, 
+			forbidden edges are added in all possible ways
+			and the elementary supergraphs with excess at least $C$
+			are printed to output.
+		If any are found, the \texttt{isSolution} method returns with success.
+		The algorithm for enumerating all 
+			elementary supergraphs is implemented in the
+			\texttt{BarrierSearch.cpp} file.
+		
+	\item \texttt{MatchingDeleter} implements the
+		\texttt{EarDeletionAlgorithm} interface.
+		The following sequence of choices 
+			describe the method for selecting 
+			a canonical ear to delete from a graph $H$:
+		
+		\begin{enumerate}
+			\item If $H$ is almost 1-extendable, 
+				we need to delete an ear $e'$ so that $H - e'$ is 1-extendable.
+				By the definition of almost 1-extendable, there is a unique such choice.
+				
+			\item If $H$ is 1-extendable, 
+				check if there exists an ear $e'$ so that $H - e'$ is 1-extendable.
+				If one exists, select one of minimum length and break ties
+					using the canonical labels of the endpoints.
+					
+			\item If $H$ is 1-extendable and 
+					no single ear $e'$ makes $H - e'$ 1-extendable, then
+					find an ear $e$ so that there is a disjoint ear $f$ 
+					with $H-e$ is almost 1-extendable
+					and
+					$H - e - f$ is 1-extendable.
+					Out of these choices for $e$, choose one of 
+						minimum length and break ties
+					using the canonical labels of the endpoints.
+		\end{enumerate}
+\end{itemize}
 
 \subsection{Application-Specific Data}
 
+The following members were added to \texttt{EarNode} 
+	to help the perfect matchings application.
+
 \begin{itemize}
 
-	\item extendable -- A boolean flag: is the graph 1-extendable?
+	\item \texttt{extendable} -- A boolean flag: is the graph 1-extendable?
 
-	\item numMatchings -- The number of perfect matchings for this graph.
+	\item  \texttt{numMatchings} -- The number of perfect matchings for this graph.
 
-	\item barriers -- The list of barriers of the graph, given as an array of Sets.
+	\item  \texttt{barriers} -- The list of barriers of the graph, given as an array of \texttt{Set}
+		pointers.  This barrier list is updated at each level by an
+		 on-line algorithm. 
 
-	\item num\_barriers -- the number of barriers in the graph.
+	\item  \texttt{num\_barriers} -- the number of barriers in the graph.
 
 \end{itemize}
 
 \subsection{Perfect Matching Algorithms}
 
-\begin{algorithm}[h]
-	\caption{\label{alg:countpm}CountPM($G, P$)}
-	\begin{algorithmic}
-		\STATE
-	\end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}[h]
-	\caption{\label{alg:is1Extendable}is1Extendable($H$)}
-	\begin{algorithmic}
-		\STATE
-	\end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}[h]
-	\caption{\label{alg:maximalSupergraphs}maximalSupergraphs($H$)}
-	\begin{algorithmic}
-		\STATE
-	\end{algorithmic}
-\end{algorithm}
-
-
+There are a few algorithms that are implemented in order 
+	to solve certain sub-problems, such as counting perfect matchings
+	or enumerating independent sets.
+These are computationally complex problems, but 
+	the implementations are very fast for these small instances.
+The algorithms are mostly un-optimized and rely on simple instructions and 
+	low overhead in order to be run many many times during the course
+	of the search.
+	
+\begin{itemize}
+	\item \texttt{countPM}($G,P$) counts the number of perfect matchings in a graph $G$,
+		with an upper bound of $P$.
+		It operates recursively, selecting an edge $e$ in $G$ and 
+			attempts to extend the current matching using $e$ and not using $e$.
+		When a perfect matching is found, the counter increases.
+		There are two shortcutting strategies:
+		
+		\begin{enumerate}
+			\item If there is ever a vertex with no available edges, 
+				the recursion is halted with a count of zero perfect matchings,
+				since the current matching does not extend to a perfect matching.
+				
+			\item If the current count of perfect matchings ever surpasses $P$,
+				then the current value is returned.
+				During the search, we only care about graphs with at most $P_{\max}$
+					perfect matchings, so graphs with many more
+					will only be pruned.
+		\end{enumerate} 
+		
+	\item \texttt{isExtendable}($G$) tests if the given graph is 1-extendable.
+		This is done by storing an array of boolean flags for each edge, marking 
+			each as they are found to be in perfect matchings.
+		This algorithm is explicitly used in the deletion algorithm.
+		During the pruning algorithm, where a specific augmentation is given, 
+			we can detect 1-extendability by 
+			asking if there is a perfect matching using the 
+			proper alternating path within the augmented ear.
+	
+	\item \texttt{enumerateAllBarrierExtensions}($G, {\mathcal B}, C$) 
+		and \texttt{searchAllBarrierExtensions}($G, {\mathcal B}$)
+		are two methods which take a 1-extendable graph $G$ with barrier list $\mathcal B$
+		and attempts to add forbidden edges to $G$ to attain the maximum excess.
+		The difference is that \texttt{enumerateAllBarrierExtensions} will
+			output any graphs with excess at least $C$, 
+			while \texttt{searchAllBarrierExtensions} will simply return the largest excess.
+		The algorithm essentially enumerates all independent sets within
+			the barrier conflict graph ${\mathcal B}$, where
+			conflicts are computed on the fly.
+		The enumeration is recursive, simply testing if
+			the next available barrier should be added to the current independent set.
+		As each set is added, it tests which barriers 
+			with larger index are in conflict with this graph.
+		These barriers are then not considered in deeper recursive calls.
+		Due to the low overhead for each independent set, this
+			simple algorithm runs fast enough for the search to be feasible.
+\end{itemize}
 
 
 
@@ -268,7 +491,7 @@ See \cite{DudekSchmitt} and \cite{HSWY} for background on this problem.
 		submitted. 2010.
 
 	\bibitem{HRnauty} S. G. Hartke and A. J. Radcliffe. 
-		MckayÕs canonical graph labeling algorithm. 
+		Mckay's canonical graph labeling algorithm. 
 		In {\it Communicating Mathematics}, 
 		volume 479 of {\it Contemporary Mathematics}, 99Ð111. 2009.
 		

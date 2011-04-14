@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2007.11.14)  5 APR 2011 13:10
+This is pdfTeX, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2007.11.14)  14 APR 2011 10:35
 entering extended mode
 \write18 enabled.
 **EarSearchUserGuide.tex
@@ -305,84 +305,65 @@ m/m/n/10.95 .
  []
 
 [2]
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 209.
+ [3]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 199.
+(Font)              <14.4> on input line 316.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 199.
+(Font)              <7> on input line 316.
 
-Overfull \hbox (9.4946pt too wide) in paragraph at lines 199--225
- [][] 
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 316.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 316.
+
+[4] [5]
+Overfull \hbox (9.00586pt too wide) in paragraph at lines 467--484
+[]\OT1/pcr/m/n/10.95 enumerateAllBarrierExtensions\OT1/ptm/m/n/10.95 ($\OML/cmm
+/m/it/10.95 G; \OMS/cmsy/m/n/10.95 B\OML/cmm/m/it/10.95 ; C$\OT1/ptm/m/n/10.95 
+) and \OT1/pcr/m/n/10.95 searchAllBarrierExtensions\OT1/ptm/m/n/10.95 ($\OML/cm
+m/m/it/10.95 G; \OMS/cmsy/m/n/10.95 B$\OT1/ptm/m/n/10.95 )
  []
 
-[3]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 345.
 
+Overfull \hbox (22.92853pt too wide) in paragraph at lines 467--484
+\OT1/ptm/m/n/10.95 edges to $\OML/cmm/m/it/10.95 G$ \OT1/ptm/m/n/10.95 to at-ta
+in the max-i-mum ex-cess. The dif-fer-ence is that \OT1/pcr/m/n/10.95 enumerate
+AllBarrierExtensions
+ []
 
-Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
-(hyperref)                removing `math shift' on input line 345.
-
-
-Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
-(hyperref)                removing `math shift' on input line 345.
-
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 367.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 367.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[4]
-Missing character: There is no ’ in font ptmr7t!
-Missing character: There is no – in font ptmr7t!
-Missing character: There is no – in font ptmr7t!
- [5pdfTeX warning (ext4): destination with the same identifier (name{ALC@rem.1}
-) has been already used, duplicate ignored
-<to be read again> 
-                   \endgroup \set@typeset@protect 
-l.482 \end{document}
-                    pdfTeX warning (ext4): destination with the same identifier
- (name{ALC@line.1}) has been already used, duplicate ignored
-<to be read again> 
-                   \endgroup \set@typeset@protect 
-l.482 \end{document}
-                    pdfTeX warning (ext4): destination with the same identifier
- (name{ALC@rem.1}) has been already used, duplicate ignored
-<to be read again> 
-                   \endgroup \set@typeset@protect 
-l.482 \end{document}
-                    pdfTeX warning (ext4): destination with the same identifier
- (name{ALC@line.1}) has been already used, duplicate ignored
-<to be read again> 
-                   \endgroup \set@typeset@protect 
-l.482 \end{document}
-                    ] [6] (./EarSearchUserGuide.aux) ) 
+Missing character: There is no √ in font ptmr7t!
+Missing character: There is no ê in font ptmr7t!
+Missing character: There is no √ in font ptmr7t!
+Missing character: There is no ê in font ptmr7t!
+[6] [7] (./EarSearchUserGuide.aux) ) 
 Here is how much of TeX's memory you used:
- 3458 strings out of 94073
- 48347 string characters out of 1163504
- 2102622 words of memory out of 4553818
- 6664 multiletter control sequences out of 10000+50000
+ 3429 strings out of 94073
+ 48024 string characters out of 1163504
+ 2101925 words of memory out of 4553121
+ 6630 multiletter control sequences out of 10000+50000
  24785 words of font info for 54 fonts, out of 2000000 for 2000
  645 hyphenation exceptions out of 5000
- 25i,10n,39p,316b,418s stack positions out of 5000i,500n,6000p,200000b,50000s
-{/usr/local/gwTeX/texmf.t
-exlive/fonts/enc/dvips/base/8r.enc}</usr/local/gwTeX/texmf.texlive/fonts/type1/
-bluesky/cm/cmmi10.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cm
-mi12.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmmi8.pfb></usr
-/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmr10.pfb></usr/local/gwTeX/t
-exmf.texlive/fonts/type1/bluesky/cm/cmr8.pfb></usr/local/gwTeX/texmf.texlive/fo
-nts/type1/bluesky/cm/cmsy10.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/urw
-/courier/ucrb8a.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/urw/courier/ucr
-r8a.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/urw/times/utmb8a.pfb></usr/
-local/gwTeX/texmf.texlive/fonts/type1/urw/times/utmr8a.pfb></usr/local/gwTeX/te
-xmf.texlive/fonts/type1/urw/times/utmri8a.pfb>
-Output written on EarSearchUserGuide.pdf (6 pages, 114580 bytes).
+ 25i,6n,39p,222b,445s stack positions out of 5000i,500n,6000p,200000b,50000s
+{/usr/local/gwTeX/texmf.texlive/fonts/enc/d
+vips/base/8r.enc}</usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmmi10.
+pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmmi12.pfb></usr/loc
+al/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmmi8.pfb></usr/local/gwTeX/texmf
+.texlive/fonts/type1/bluesky/cm/cmr10.pfb></usr/local/gwTeX/texmf.texlive/fonts
+/type1/bluesky/cm/cmr8.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/
+cm/cmsy10.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/bluesky/cm/cmsy8.pfb>
+</usr/local/gwTeX/texmf.texlive/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/
+gwTeX/texmf.texlive/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/gwTeX/texmf.
+texlive/fonts/type1/urw/times/utmb8a.pfb></usr/local/gwTeX/texmf.texlive/fonts/
+type1/urw/times/utmr8a.pfb></usr/local/gwTeX/texmf.texlive/fonts/type1/urw/time
+s/utmri8a.pfb>
+Output written on EarSearchUserGuide.pdf (7 pages, 121845 bytes).
 PDF statistics:
- 181 PDF objects out of 1000 (max. 8388607)
- 43 named destinations out of 1000 (max. 131072)
+ 195 PDF objects out of 1000 (max. 8388607)
+ 48 named destinations out of 1000 (max. 131072)
  145 words of extra memory for PDF output out of 10000 (max. 10000000)
 
