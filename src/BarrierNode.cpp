@@ -425,7 +425,7 @@ BarrierNode** constructBarriers(BarrierNode** b_list, int num_barriers, int** ea
 
 						for ( int j = 1; j <= max_sub_size; j++ )
 						{
-							if ( sub_indicator & (1 << (j - 1)) != 0 )
+							if ( (sub_indicator & (1 << (j - 1))) != 0 )
 							{
 								/* add vert at 2*i distance from the endpoint in the barrier */
 								ear_elts[num_ear_elts] = ear[endpoint + direction * 2 * j];
@@ -519,7 +519,7 @@ BarrierNode** constructBarriers(BarrierNode** b_list, int num_barriers, int** ea
 
 						for ( int i = 1; i <= max_sub_size; i++ )
 						{
-							if ( sub_indicator & (1 << (i - 1)) != 0 )
+							if ( (sub_indicator & (1 << (i - 1))) != 0 )
 							{
 								/* add vert at 2*i distance from the endpoint in the barrier */
 								ear_elts[num_ear_elts] = ear[endpoint + direction * 2 * i];

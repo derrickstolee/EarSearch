@@ -93,7 +93,7 @@ GraphData::GraphData(sparsegraph* g)
 	this->g->dlen = g->nv;
 	this->g->elen = g->nde;
 
-	this->g->v = (int*) malloc(g->nv * sizeof(int));
+	this->g->v = (size_t*) malloc(g->nv * sizeof(size_t));
 	this->g->d = (int*) malloc(g->nv * sizeof(int));
 	this->g->e = (int*) malloc(g->nde * sizeof(int));
 
@@ -1057,7 +1057,7 @@ LONG_T EarSearchManager::pushTo(LONG_T child)
 		g->nde = 2 * cycle_l;
 
 		/* THESE ARE NOT BEING FREED? */
-		g->v = (int*) malloc(this->max_n * sizeof(int));
+		g->v = (size_t*) malloc(this->max_n * sizeof(size_t));
 		g->d = (int*) malloc(this->max_n * sizeof(int));
 		g->e = (int*) malloc(this->max_n * this->max_n * sizeof(int));
 
@@ -1394,12 +1394,12 @@ LONG_T EarSearchManager::pop()
 
 			g->nv = g->nv - length;
 			g->nde = g->nde - 2 * (length + 1);
-			g->d[node->ear[0]] = g->d[node->ear[0]] - 1;
-			g->d[node->ear[length + 1]] = g->d[node->ear[length + 1]] - 1;
+			g->d[(int)node->ear[0]] = g->d[(int)node->ear[0]] - 1;
+			g->d[(int)node->ear[length + 1]] = g->d[(int)node->ear[length + 1]] - 1;
 
 			for ( int i = 0; i < length; i++ )
 			{
-				g->d[node->ear[i + 1]] = 0;
+				g->d[(int)node->ear[i + 1]] = 0;
 			}
 		}
 	}
@@ -1565,84 +1565,6 @@ int EarSearchManager::isSolution()
 	}
 	else
 	{
-		int i = 0;
-		//		printf("Cycle on %lld verts.\n", this->root->curChild);
-		//
-		//		for ( std::list<SearchNode*>::const_iterator iter = this->stack.begin(); iter
-		//				!= this->stack.end(); iter++ )
-		//		{
-		//			EarNode* inode = (EarNode*) *iter;
-		//
-		//			if ( inode->ear_list != 0 )
-		//			{
-		//				for ( int j = 0; j <= i; j++ )
-		//				{
-		//					printf("\t");
-		//				}
-		//
-		//				int max_vert = 0;
-		//
-		//				for ( int j = 0; j < inode->num_ears; j++ )
-		//				{
-		//					printf("{ ");
-		//					for ( int k = 0; inode->ear_list[j][k] >= 0; k++ )
-		//					{
-		//						if (  inode->ear_list[j][k] > max_vert )
-		//						{
-		//							max_vert = inode->ear_list[j][k];
-		//						}
-		//
-		//						printf("%d ", inode->ear_list[j][k]);
-		//					}
-		//					printf("}, ");
-		//				}
-		//
-		//				printf(" ADDED { ");
-		//				for ( int j = 0; inode->ear[j] >= 0; j++ )
-		//				{
-		//					printf("%d ", inode->ear[j]);
-		//				}
-		//
-		//				printf("}\n");
-		//
-		//				for ( int j = 0; j <= i; j++ )
-		//				{
-		//					printf("\t");
-		//				}
-		//
-		//				for ( int j = 0; j <= max_vert; j++ )
-		//				{
-		//					printf("(%d -> %d) ",j, inode->canonicalLabels[j]);
-		//				}
-		//				printf("\n");
-		//
-		//
-		//				for ( int j = 0; j <= i; j++ )
-		//				{
-		//					printf("\t");
-		//				}
-		//
-		//				printf("IN ORBIT ");
-		//
-		//				for ( int j = 0; j < inode->numPairOrbits; j++ )
-		//				{
-		//					printf(" { ");
-		//					for ( int k = 0; inode->orbitList[j][k] >= 0; k++ )
-		//					{
-		//						int v1,v2;
-		//						indexToPair(max_vert+1, inode->orbitList[j][k], v1, v2);
-		//
-		//						printf("(%d,%d) ", v1,v2);
-		//					}
-		//					printf("}, ");
-		//				}
-		//				printf("\n");
-		//			}
-		//
-		//			i++;
-		//		}
-		//		printf("\n");
-
 		/* this is a workaround so solutions are printed */
 		/* but the search doesn't stop */
 		super::writeSolutionJob(stdout);

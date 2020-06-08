@@ -155,7 +155,7 @@ int getCanonicalLabelsAndPairOrbits(sparsegraph* g, int* labels,
 	sg.w = 0;
 	sg.wlen = 0;
 
-	sg.v = (int*) malloc(g->nv * sizeof(int));
+	sg.v = (size_t*) malloc(g->nv * sizeof(size_t));
 	sg.d = (int*) malloc(g->nv * sizeof(int));
 	sg.e = (int*) malloc(g->nde * sizeof(int));
 

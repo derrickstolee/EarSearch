@@ -75,7 +75,7 @@ int getMaxEdges(sparsegraph* g, int goalEdges, int curEdges, BarrierNode** b_lis
  *
  * Examines ALL barrier extensions, with some bounding techniques.
  */
-bool enumerateAllBarrierExtensions(sparsegraph* graph, int goalEdges, BarrierNode** b_list, int num_barriers)
+bool enumerateAllBarrierExtensions(sparsegraph* graph, unsigned int goalEdges, BarrierNode** b_list, int num_barriers)
 {
 	/* result is false until one is found */
 	bool result = false;
@@ -97,7 +97,7 @@ bool enumerateAllBarrierExtensions(sparsegraph* graph, int goalEdges, BarrierNod
 		conflict_list[i] = num_barriers;
 	}
 
-	int max_edges = getMaxEdges(graph, goalEdges, graph->nde, b_list, conflict_list, num_barriers, 0, true);
+	getMaxEdges(graph, goalEdges, graph->nde, b_list, conflict_list, num_barriers, 0, true);
 
 	free(conflict_list);
 	conflict_list = 0;

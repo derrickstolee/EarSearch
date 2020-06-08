@@ -49,17 +49,17 @@ CXXFLAGS 	= $(OPT) $(DEBUG) $(WARNINGS)
 LFLAGS 		= $(OPT) $(DEBUG) $(WARNINGS)
 
 
-INCLUDES =  -I../treesearch \
-			-I../nauty24r2 
+INCLUDES =  -I../../TreeSearch \
+		-I../../nauty
 
 
 TREESEARCHOBJS	= ../treesearch/SearchManager.o 
 				  
-NAUTYOBJS     	= ../nauty24r2/nauty.o 			\
-				  ../nauty24r2/nausparse.o		\
-				  ../nauty24r2/gtools.o			\
-				  ../nauty24r2/nautil.o			\
-				  ../nauty24r2/naugraph.o
+NAUTYOBJS     	= ../nauty/nauty.o 			\
+				  ../nauty/nausparse.o		\
+				  ../nauty/gtools.o			\
+				  ../nauty/nautil.o			\
+				  ../nauty/naugraph.o
 					
 LIBOBJS			= $(TREESEARCHOBJS) $(NAUTYOBJS)
 			

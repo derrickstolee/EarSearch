@@ -20,7 +20,7 @@ void printModifiedGraphBarrier(sparsegraph* g)
 	sg.w = 0;
 	sg.wlen = 0;
 
-	sg.v = (int*) malloc(g->nv * sizeof(int));
+	sg.v = (size_t*) malloc(g->nv * sizeof(size_t));
 	sg.d = (int*) malloc(g->nv * sizeof(int));
 	sg.e = (int*) malloc(g->nde * sizeof(int));
 
@@ -247,7 +247,7 @@ void refineBarriers(sparsegraph* graph, int* num_barriers, int*** barriers, int*
  *
  * @return true if it finds at least one.
  */
-bool fillBarriers(sparsegraph* graph, int goalEdges, int num_barriers, int** barriers, int* b_sizes)
+bool fillBarriers(sparsegraph* graph, unsigned int goalEdges, int num_barriers, int** barriers, int* b_sizes)
 {
 
 	bool all_complete = true;
@@ -258,8 +258,6 @@ bool fillBarriers(sparsegraph* graph, int goalEdges, int num_barriers, int** bar
 	{
 		if ( b_sizes[i] > 1 )
 		{
-			bool complete = false;
-
 			/* only need to test the first and last elements in the barrier */
 			int vj = barriers[i][0];
 			int vk = barriers[i][1];
@@ -298,7 +296,6 @@ bool fillBarriers(sparsegraph* graph, int goalEdges, int num_barriers, int** bar
 	{
 		if ( graph->nde >= 2 * goalEdges )
 		{
-			//			printf("--printing a SOLUTION!\n");
 			printModifiedGraphBarrier(graph);
 			return true;
 		}

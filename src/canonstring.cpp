@@ -49,7 +49,7 @@ char* getCanonString(sparsegraph* g)
 	}
 
 	sg.nv = num_verts;
-	sg.v = (int*) malloc(num_verts * sizeof(int));
+	sg.v = (size_t*) malloc(num_verts * sizeof(size_t));
 	sg.d = (int*) malloc(num_verts * sizeof(int));
 
 	/* over-allocation is ok. */
